@@ -2,3 +2,4 @@ node_modules
 lib
 
 packages/*/tsconfig.tsbuildinfo
+lerna-debug.log

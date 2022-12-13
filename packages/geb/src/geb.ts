@@ -1,20 +1,24 @@
 import {
-    ContractApis,
+    MultiCollateralContractApis,
+    //ContractApis,
     Multicall,
     Erc20,
-    StakingRewards,
-    MerkleDistributor,
-} from '@reflexer-finance/geb-contract-api'
+    //StakingRewards,
+    //MerkleDistributor,
+} from '@money-god/geb-contract-api'
 import {
     GebProviderInterface,
     MulticallRequest,
-    getAddressList,
-    ContractList,
-    GebDeployment,
+    getMcAddressList,
+    //getAddressList,
+    MultiCollateralContractList,
+    //ContractList,
+    MultiCollateralGebDeployment,
+    //GebDeployment,
     BaseContractAPI,
     GebContractAPIConstructorInterface,
-} from '@reflexer-finance/geb-contract-base'
-import { GebEthersProvider } from '@reflexer-finance/geb-ethers-provider'
+} from '@money-god/geb-contract-base'
+import { GebEthersProvider } from '@money-god/geb-ethers-provider'
 import { ethers } from 'ethers'
 import { GebError, GebErrorTypes } from './errors'
 import { GebProxyActions } from './proxy-action'
@@ -77,23 +81,23 @@ export class Geb {
      * - CoinJoin
      * - Coin (System coin ERC20 contract)
      * - GebProxyRegistry
-     * - FixedDiscountCollateralAuctionHouse
+     * - IncreasingDiscountCollateralAuctionHouse
      * - Weth (ERC20)
      *
      * For detailed information about the functions of each contract we recommend the smart contract
      * [[https://github.com/reflexer-labs/geb | code]] and [[https://docs.reflexer.finance/ |
      * documentation]]
      */
-    public contracts: ContractApis
+    public contracts: MultiCollateralContractApis
     protected provider: GebProviderInterface
-    protected addresses: ContractList
+    protected addresses: MultiCollateralContractList
     /**
      * Constructor for the main Geb.js object.
-     * @param  {GebDeployment} network Either `'kovan'`, `'mainnet'` or an actual list of contract addresses.
+     * @param  {MultiCollateralGebDeployment} network Either `'kovan'`, `'mainnet'`, `'fantom'` or an actual list of contract addresses.
      * @param  {GebProviderInterface|ethers.providers.Provider} provider Either a Ethers.js provider or a Geb provider (support for Web3 will be added in the future)
      */
     constructor(
-        protected network: GebDeployment,
+        protected network: MultiCollateralGebDeployment,
         provider: GebProviderInterface | ethers.providers.Provider
     ) {
         if (
@@ -109,8 +113,8 @@ export class Geb {
         } else {
             this.provider = provider as GebProviderInterface
         }
-        this.addresses = getAddressList(network)
-        this.contracts = new ContractApis(network, this.provider)
+        this.addresses = getMcAddressList(network)
+        this.contracts = new MultiCollateralContractApis(network, this.provider)
     }
 
     /**
@@ -268,6 +272,8 @@ export class Geb {
      *
      * @returns StakingRewards
      */
+
+    /*
     public async getIncentiveCampaignContract(campaignNumber: number) {
         const address = (
             await this.contracts.stakingRewardFactory.stakingRewardsInfo(
@@ -280,12 +286,14 @@ export class Geb {
         }
         return new StakingRewards(address, this.provider)
     }
+    */
 
     /**
      * Get the claim statues of merkle distributions given a list of distributions and a node
      * The nodeIndex is the index of the address in the merkle tree.
      * @param  {{distributionIndex:number;nodeIndex:number}[]} nodes
      */
+    /*
     public async getMerkleDistributorClaimStatues(
         nodes: { distributionIndex: number; nodeIndex: number }[]
     ) {
@@ -330,14 +338,16 @@ export class Geb {
 
         return ret
     }
-
+    */
     /**
      * Get a merkle distributor contract given its address
      * @param  {string} distributorAddress
      */
+    /*
     public getMerkleDistributor(distributorAddress: string) {
         return new MerkleDistributor(distributorAddress, this.provider)
     }
+    */
 
     // Multicall overloads, typing support for up to 7 calls.
 

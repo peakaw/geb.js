@@ -1,5 +1,5 @@
 import { BigNumber, FixedNumber } from '@ethersproject/bignumber'
-import { ContractApis } from '@reflexer-finance/geb-contract-api'
+import { MultiCollateralContractApis } from '@money-god/geb-contract-api'
 import { RAY } from '../utils'
 
 /**
@@ -7,7 +7,7 @@ import { RAY } from '../utils'
  */
 export class Safe {
     constructor(
-        private contracts: ContractApis,
+        private contracts: MultiCollateralContractApis,
 
         /**
          * SAFE handler in the SAFE Engine

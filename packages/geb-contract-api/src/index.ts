@@ -4,7 +4,7 @@ import { CoinJoin } from './generated/CoinJoin'
 import { Coin } from './generated/Coin'
 import { DebtAuctionHouse } from './generated/DebtAuctionHouse'
 import { DsProxy } from './generated/DSProxy'
-import { FixedDiscountCollateralAuctionHouse } from './generated/FixedDiscountCollateralAuctionHouse'
+import { IncreasingDiscountCollateralAuctionHouse } from './generated/IncreasingDiscountCollateralAuctionHouse'
 import { GebProxyRegistry } from './generated/GebProxyRegistry'
 import { GebSafeManager } from './generated/GebSafeManager'
 import { GetSafes } from './generated/GetSafes'
@@ -19,6 +19,7 @@ import { GebProxyActionsGlobalSettlement } from './generated/GebProxyActionsGlob
 import { Erc20 } from './generated/ERC20'
 import { UniswapConsecutiveSlotsMedianRaiusd } from './generated/UniswapConsecutiveSlotsMedianRAIUSD'
 import { ContractApis } from './contract-apis'
+import { MultiCollateralContractApis } from './contract-apis'
 import { Multicall } from './generated/Multicall'
 import { Osm } from './generated/OSM'
 import { Weth9 } from './generated/WETH9_'
@@ -53,6 +54,7 @@ import { YearnCurveMaxSafeSaviour } from './generated/YearnCurveMaxSafeSaviour'
 
 export {
     // Factory
+    MultiCollateralContractApis,
     ContractApis,
     // Individual contracts
     AccountingEngine,
@@ -61,7 +63,7 @@ export {
     Coin,
     DebtAuctionHouse,
     DsProxy,
-    FixedDiscountCollateralAuctionHouse,
+    IncreasingDiscountCollateralAuctionHouse,
     GebProxyRegistry,
     GebSafeManager,
     GetSafes,

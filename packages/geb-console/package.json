@@ -1,18 +1,22 @@
 {
-    "name": "@reflexer-finance/geb-console",
-    "version": "1.1.44",
+    "name": "@money-god/geb-console",
+    "version": "1.0.10",
     "description": "",
     "main": "./lib/index.js",
     "bin": {
         "geb-console": "./bin/geb-console"
     },
-    "author": "Guillaume Felley <guillaume@reflexer.finance>",
+    "author": "<peakaw@protonmail.com>",
     "license": "MIT",
     "dependencies": {
+        "@money-god/geb-admin": "^1.0.10",
         "@nomiclabs/hardhat-ethers": "^2.0.2",
-        "@reflexer-finance/geb-admin": "^1.1.41",
         "ethers": "^5.0.32",
         "hardhat": "^2.1.2",
         "open": "^7.3.0"
-    }
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "gitHead": "e0627bb7c504fc78cc65315ac4b98da65eeaea1b"
 }

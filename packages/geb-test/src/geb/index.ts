@@ -1,9 +1,9 @@
-import { GebEthersProvider } from '@reflexer-finance/geb-ethers-provider'
+import { GebEthersProvider } from '@money-god/geb-ethers-provider'
 import { ethers } from 'ethers'
 import { MAKER_KOVAN_NODE, MAKER_MAINNET_NODE } from './../const'
 import { testsProxyActionWithGenericGebProvider } from './proxy-actions'
 import { testsGeb } from './geb'
-import { KOVAN_ADDRESSES, MAINNET_ADDRESSES } from 'geb.js'
+import { KOVAN_ADDRESSES, MAINNET_ADDRESSES } from 'mcgeb.js'
 
 describe('Test Geb', async () => {
     // Kovan

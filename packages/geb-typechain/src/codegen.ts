@@ -56,20 +56,20 @@ function addImports(template: string): string {
     if (template.includes('TransactionRequest')) {
         template =
             `
-        import { TransactionRequest } from '@reflexer-finance/geb-contract-base'` +
+        import { TransactionRequest } from '@money-god/geb-contract-base'` +
             template
     }
 
     if (template.includes('MulticallRequest')) {
         template =
             `
-        import { MulticallRequest } from '@reflexer-finance/geb-contract-base'` +
+        import { MulticallRequest } from '@money-god/geb-contract-base'` +
             template
     }
 
     template =
         `
-        import { BaseContractAPI } from '@reflexer-finance/geb-contract-base'` +
+        import { BaseContractAPI } from '@money-god/geb-contract-base'` +
         template
     return template
 }

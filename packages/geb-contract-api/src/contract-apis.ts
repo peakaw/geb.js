@@ -11,7 +11,7 @@ import {
     BasicCollateralJoin,
     CoinJoin,
     GebProxyRegistry,
-    FixedDiscountCollateralAuctionHouse,
+    IncreasingDiscountCollateralAuctionHouse,
     Weth9,
     SafeEngine,
     ChainlinkRelayer,
@@ -35,9 +35,11 @@ import {
 } from '.'
 import {
     GebProviderInterface,
+    MultiCollateralGebDeployment,
     GebDeployment,
+    getMcAddressList,
     getAddressList,
-} from '@reflexer-finance/geb-contract-base'
+} from '@money-god/geb-contract-base'
 import { PiRateSetter } from './generated/PIRateSetter'
 import { PRawPerSecondCalculator } from './generated/PRawPerSecondCalculator'
 import { MerkleDistributorFactory } from './generated/MerkleDistributorFactory'
@@ -61,7 +63,7 @@ export class ContractApis {
     public joinCoin: CoinJoin
     public coin: Coin
     public proxyRegistry: GebProxyRegistry
-    public collateralAuctionHouseETH_A: FixedDiscountCollateralAuctionHouse
+    public collateralAuctionHouseETH_A: IncreasingDiscountCollateralAuctionHouse
     public protocolToken: DsDelegateToken
     public medianizerEth: ChainlinkRelayer
     public medianizerCoin: UniswapConsecutiveSlotsMedianRaiusd
@@ -107,7 +109,7 @@ export class ContractApis {
         this.joinCoin = new CoinJoin(addressList.GEB_COIN_JOIN, this.chainProvider)
         this.coin = new Coin(addressList.GEB_COIN, this.chainProvider)
         this.proxyRegistry = new GebProxyRegistry(addressList.PROXY_REGISTRY, this.chainProvider)
-        this.collateralAuctionHouseETH_A = new FixedDiscountCollateralAuctionHouse(addressList.GEB_COLLATERAL_AUCTION_HOUSE_ETH_A, this.chainProvider)
+        this.collateralAuctionHouseETH_A = new IncreasingDiscountCollateralAuctionHouse(addressList.COLLATERAL_AUCTION_HOUSE_ETH_A, this.chainProvider)
         this.medianizerEth = new ChainlinkRelayer(addressList.MEDIANIZER_ETH, this.chainProvider)
         this.medianizerCoin = new UniswapConsecutiveSlotsMedianRaiusd(addressList.MEDIANIZER_RAI, this.chainProvider)
         this.rateSetter = new PiRateSetter(addressList.GEB_RRFM_SETTER, this.chainProvider)
@@ -129,5 +131,88 @@ export class ContractApis {
         this.stakingToken = new Erc20(addressList.GEB_STAKING_TOKEN, this.chainProvider)
         this.stakedProt = new DsDelegateTokenNoTransfer(addressList.GEB_STAKED_PROT, this.chainProvider)
         this.stakingEscrow = new StakingRewardsEscrow(addressList.GEB_STAKING_REWARDS_ESCROW, this.chainProvider)
+    }
+}
+
+// Container class used to instantiate most MC GEB contracts
+// prettier-ignore
+export class MultiCollateralContractApis {
+    public safeEngine: SafeEngine
+    public accountingEngine: AccountingEngine
+    public taxCollector: TaxCollector
+    public liquidationEngine: LiquidationEngine
+    public oracleRelayer: OracleRelayer
+    public globalSettlement: GlobalSettlement
+    public debtAuctionHouse: DebtAuctionHouse
+    public surplusAuctionHouse: BurningSurplusAuctionHouse
+    public stabilityFeeTreasury: StabilityFeeTreasury
+    public safeManager: GebSafeManager
+    public joinETH_A: BasicCollateralJoin
+    public joinETH_B: BasicCollateralJoin
+    public joinETH_C: BasicCollateralJoin
+    public joinWSTETH_A: BasicCollateralJoin
+    public joinWSTETH_B: BasicCollateralJoin
+    public joinRETH_A: BasicCollateralJoin
+    public joinRETH_B: BasicCollateralJoin
+    public joinRAI_A: BasicCollateralJoin
+    public joinCoin: CoinJoin
+    public coin: Coin
+    public proxyRegistry: GebProxyRegistry
+    public collateralAuctionHouseETH_A: IncreasingDiscountCollateralAuctionHouse
+    public collateralAuctionHouseETH_B: IncreasingDiscountCollateralAuctionHouse
+    public collateralAuctionHouseETH_C: IncreasingDiscountCollateralAuctionHouse
+    public collateralAuctionHouseWSTETH_A: IncreasingDiscountCollateralAuctionHouse
+    public collateralAuctionHouseWSTETH_B: IncreasingDiscountCollateralAuctionHouse
+    public collateralAuctionHouseRETH_A: IncreasingDiscountCollateralAuctionHouse
+    public collateralAuctionHouseRETH_B: IncreasingDiscountCollateralAuctionHouse
+    public collateralAuctionHouseRAI_A: IncreasingDiscountCollateralAuctionHouse
+    public protocolToken: DsDelegateToken
+    public rateSetter: PiRateSetter
+    public piCalculator: PRawPerSecondCalculator
+    public weth: Weth9
+
+    constructor(
+        network: MultiCollateralGebDeployment,
+        public chainProvider: GebProviderInterface
+    )
+    {
+        // Set the contract address list
+        let addressList = getMcAddressList(network)
+
+        this.safeEngine = new SafeEngine(addressList.GEB_SAFE_ENGINE, this.chainProvider)
+        this.accountingEngine = new AccountingEngine(addressList.GEB_ACCOUNTING_ENGINE, this.chainProvider)
+        this.taxCollector = new TaxCollector(addressList.GEB_TAX_COLLECTOR, this.chainProvider)
+        this.liquidationEngine = new LiquidationEngine(addressList.GEB_LIQUIDATION_ENGINE, this.chainProvider)
+        this.oracleRelayer = new OracleRelayer(addressList.GEB_ORACLE_RELAYER, this.chainProvider)
+        this.globalSettlement = new GlobalSettlement(addressList.GEB_GLOBAL_SETTLEMENT, this.chainProvider)
+        this.debtAuctionHouse = new DebtAuctionHouse(addressList.GEB_DEBT_AUCTION_HOUSE, this.chainProvider)
+        this.surplusAuctionHouse = new BurningSurplusAuctionHouse(addressList.GEB_SURPLUS_AUCTION_HOUSE, this.chainProvider)
+        this.stabilityFeeTreasury = new StabilityFeeTreasury(addressList.GEB_STABILITY_FEE_TREASURY, this.chainProvider)
+        this.safeManager = new GebSafeManager(addressList.SAFE_MANAGER, this.chainProvider)
+        this.joinETH_A = new BasicCollateralJoin(addressList.GEB_JOIN_ETH_A, this.chainProvider)
+        this.joinETH_B = new BasicCollateralJoin(addressList.GEB_JOIN_ETH_B, this.chainProvider)
+        this.joinETH_C = new BasicCollateralJoin(addressList.GEB_JOIN_ETH_C, this.chainProvider)
+        this.joinWSTETH_A = new BasicCollateralJoin(addressList.GEB_JOIN_WSTETH_A, this.chainProvider)
+        this.joinWSTETH_B = new BasicCollateralJoin(addressList.GEB_JOIN_WSTETH_B, this.chainProvider)
+        this.joinRETH_A = new BasicCollateralJoin(addressList.GEB_JOIN_RETH_A, this.chainProvider)
+        this.joinRETH_B = new BasicCollateralJoin(addressList.GEB_JOIN_RETH_B, this.chainProvider)
+        this.joinRAI_A = new BasicCollateralJoin(addressList.GEB_JOIN_RAI_A, this.chainProvider)
+        this.joinCoin = new CoinJoin(addressList.GEB_COIN_JOIN, this.chainProvider)
+        this.coin = new Coin(addressList.GEB_COIN, this.chainProvider)
+        this.proxyRegistry = new GebProxyRegistry(addressList.PROXY_REGISTRY, this.chainProvider)
+        this.protocolToken = new DsDelegateToken(addressList.GEB_PROT, this.chainProvider)
+        this.collateralAuctionHouseETH_A = new IncreasingDiscountCollateralAuctionHouse(addressList.COLLATERAL_AUCTION_HOUSE_ETH_A, this.chainProvider)
+        this.collateralAuctionHouseETH_B = new IncreasingDiscountCollateralAuctionHouse(addressList.COLLATERAL_AUCTION_HOUSE_ETH_B, this.chainProvider)
+        this.collateralAuctionHouseETH_C = new IncreasingDiscountCollateralAuctionHouse(addressList.COLLATERAL_AUCTION_HOUSE_ETH_C, this.chainProvider)
+        this.collateralAuctionHouseWSTETH_A = new IncreasingDiscountCollateralAuctionHouse(addressList.COLLATERAL_AUCTION_HOUSE_WSTETH_A, this.chainProvider)
+        this.collateralAuctionHouseWSTETH_B = new IncreasingDiscountCollateralAuctionHouse(addressList.COLLATERAL_AUCTION_HOUSE_WSTETH_B, this.chainProvider)
+        this.collateralAuctionHouseRETH_A = new IncreasingDiscountCollateralAuctionHouse(addressList.COLLATERAL_AUCTION_HOUSE_RETH_A, this.chainProvider)
+        this.collateralAuctionHouseRETH_B = new IncreasingDiscountCollateralAuctionHouse(addressList.COLLATERAL_AUCTION_HOUSE_RETH_B, this.chainProvider)
+        this.collateralAuctionHouseRAI_A = new IncreasingDiscountCollateralAuctionHouse(addressList.COLLATERAL_AUCTION_HOUSE_RAI_A, this.chainProvider)
+        //this.medianizerCoin = new UniswapConsecutiveSlotsMedianRaiusd(addressList.MEDIANIZER_RAI, this.chainProvider)
+        this.rateSetter = new PiRateSetter(addressList.GEB_RRFM_SETTER, this.chainProvider)
+        this.piCalculator = new PRawPerSecondCalculator(addressList.GEB_RRFM_CALCULATOR, this.chainProvider)
+        //this.fsmEth = new Osm(addressList.FEED_SECURITY_MODULE_ETH, this.chainProvider)
+        this.weth = new Weth9(addressList.ETH, this.chainProvider)
     }
 }

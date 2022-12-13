@@ -1,20 +1,24 @@
 {
-    "name": "@reflexer-finance/geb-ethers-provider",
-    "version": "1.1.36",
+    "name": "@money-god/geb-ethers-provider",
+    "version": "1.0.10",
     "description": "",
     "main": "./lib/index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "author": "Guillaume Felley <guillaume@reflexer.finance>",
+    "author": "<peakaw@protonmail.com>",
     "license": "MIT",
     "dependencies": {
-        "@reflexer-finance/geb-contract-base": "^1.1.36"
+        "@money-god/geb-contract-base": "^1.0.9"
     },
     "devDependencies": {
         "ethers": "^5.0.9"
     },
     "peerDependencies": {
         "ethers": "5.x"
-    }
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "gitHead": "e0627bb7c504fc78cc65315ac4b98da65eeaea1b"
 }

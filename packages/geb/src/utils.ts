@@ -9,6 +9,48 @@ const ETH_A =
     '0x4554482d41000000000000000000000000000000000000000000000000000000'
 
 /**
+ * byte32 value for the "ETH-B" collateral
+ */
+const ETH_B =
+    '0x4554482d42000000000000000000000000000000000000000000000000000000'
+
+/**
+ * byte32 value for the "ETH-C" collateral
+ */
+const ETH_C =
+    '0x4554482d43000000000000000000000000000000000000000000000000000000'
+
+/**
+ * byte32 value for the "WSTETH-A" collateral
+ */
+const WSTETH_A =
+    '0x5753544554482d41000000000000000000000000000000000000000000000000'
+
+/**
+ * byte32 value for the "WSTETH-B" collateral
+ */
+const WSTETH_B =
+    '0x5753544554482d42000000000000000000000000000000000000000000000000'
+
+/**
+ * byte32 value for the "RETH-A" collateral
+ */
+const RETH_A =
+    '0x524554482d410000000000000000000000000000000000000000000000000000'
+
+/**
+ * byte32 value for the "RETH-B" collateral
+ */
+const RETH_B =
+    '0x524554482d420000000000000000000000000000000000000000000000000000'
+
+/**
+ * byte32 value for the "RAI-A" collateral
+ */
+const RAI_A =
+    '0x5241492d41000000000000000000000000000000000000000000000000000000'
+
+/**
  * 0x0 address or burn address
  */
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
@@ -102,6 +144,13 @@ const getRequireString = (error: any): string | null => {
 export {
     // Constants
     ETH_A,
+    ETH_B,
+    ETH_C,
+    WSTETH_A,
+    WSTETH_B,
+    RETH_A,
+    RETH_B,
+    RAI_A,
     NULL_ADDRESS,
     WAD,
     RAY,

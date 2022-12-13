@@ -3,7 +3,7 @@ import { testContractPresence } from './contracts'
 import {
     KOVAN_ADDRESSES,
     MAINNET_ADDRESSES,
-} from '@reflexer-finance/geb-contract-base'
+} from '@money-god/geb-contract-base'
 import { testsGebAdmin } from './geb-admin'
 
 describe('Test contract admin API', async () => {

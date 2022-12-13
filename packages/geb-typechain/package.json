@@ -1,6 +1,6 @@
 {
-    "name": "@reflexer-finance/geb-typechain",
-    "version": "1.0.5",
+    "name": "@money-god/geb-typechain",
+    "version": "1.0.10",
     "description": "",
     "main": "./lib/index.js",
     "module": "./lib/index.js",
@@ -8,12 +8,16 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "author": "Guillaume Felley <guillaume@reflexer.finance>",
+    "author": "<peakaw@protonmail.com>",
     "license": "MIT",
     "dependencies": {
         "@types/lodash": "^4.14.160",
         "lodash": "^4.17.20",
         "ts-generator": "0.0.8",
         "typechain": "^2.0.0"
-    }
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "gitHead": "e0627bb7c504fc78cc65315ac4b98da65eeaea1b"
 }

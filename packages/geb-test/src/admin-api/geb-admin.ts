@@ -1,6 +1,6 @@
-import { GebAdmin } from '@reflexer-finance/geb-admin'
+import { GebAdmin } from '@money-god/geb-admin'
 import assert from 'assert'
-import { ContractList, GebEthersProvider } from 'geb.js'
+import { ContractList, GebEthersProvider } from 'mcgeb.js'
 import { ethers } from 'ethers'
 
 export const testsGebAdmin = (

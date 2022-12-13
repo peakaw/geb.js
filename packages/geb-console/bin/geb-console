@@ -2,7 +2,7 @@
 
 var node_repl = require('repl')
 var ethers = require('ethers')
-var geb_admin = require('@reflexer-finance/geb-admin')
+var geb_admin = require('@money-god/geb-admin')
 var http = require('http')
 var open = require('open')
 
@@ -25,7 +25,7 @@ async function main() {
     var rpcUrl = process.argv.length >= 4 ? process.argv[3] : process.env.ETH_RPC
 
     if(!rpcUrl) {
-        console.log(`Missing RPC start "geb-console <mainnet|kovan> <rpcurl>" or set ETH_RPC env var`)
+        console.log(`Missing RPC start "geb-console <mainnet|fantom> <rpcurl>" or set ETH_RPC env var`)
         return
     }
 
@@ -50,6 +50,14 @@ async function main() {
         console.log('Start geb-console on custom RPC...')
         network = 'kovan'
         netId = 42
+    } else if (network === "local") {
+        console.log('Start geb-console on custom RPC...')
+        network = 'local'
+        netId = 31337
+    } else if (network === "fantom") {
+        console.log('Start geb-console on custom RPC...')
+        network = 'fantom'
+        netId = 250
     } else {
         console.log("Unkown network please use mainnet, kovan or mainnet-fork")
         return
@@ -60,8 +68,12 @@ async function main() {
     console.log('- contracts                  - now()')
     console.log('- wallet                     - provider')
     console.log('- BigNumber                  - info(func)')
-    console.log('- ETH_A                      - WAD')
-    console.log('- RAD                        - RAY')
+    console.log('- ETH_A                      - RETH_A')
+    console.log('- ETH_B                      - RETH_B')
+    console.log('- ETH_C                      - RAI_A')
+    console.log('- WSTETH_A                   - WAD')
+    console.log('- WSTETH_B                   - RAD')
+    console.log('- WAD                        - RAY')
     console.log('- metamask(<txRequest>)      - wad(<BN|number|string>)')
     console.log('- ray(<BN|number|string>)    - rad(<BN|number|string>)')
     console.log('- parseWad(<BN>)             - parseRay(<BN>)')
@@ -80,6 +92,13 @@ async function main() {
     repl.context.provider = new ethers.ethers.providers.StaticJsonRpcProvider(rpcUrl)
     repl.context.geb = new geb_admin.GebAdmin(network, repl.context.provider)
     repl.context.ETH_A = geb_admin.utils.ETH_A
+    repl.context.ETH_B = geb_admin.utils.ETH_B
+    repl.context.ETH_C = geb_admin.utils.ETH_C
+    repl.context.WSTETH_A = geb_admin.utils.WSTETH_A
+    repl.context.WSTETH_B = geb_admin.utils.WSTETH_B
+    repl.context.RETH_A = geb_admin.utils.RETH_A
+    repl.context.RETH_B = geb_admin.utils.RETH_B
+    repl.context.RAI_A = geb_admin.utils.RAI_A
     repl.context.WAD = geb_admin.utils.WAD
     repl.context.RAD = geb_admin.utils.RAD
     repl.context.RAY = geb_admin.utils.RAY

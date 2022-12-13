@@ -3,17 +3,17 @@
 This class extends the core `GEB` class with additional tools and contracts that are not used as often as other SAFE management tools.
 Here you will find utils for contracts such as DSPause, ESM etc. These contracts are scattered across several repositories. Please refer to the smart contract documentation to learn more about them.
 
-**IMPORTANT:** To avoid bloating the main [geb.js](https://www.npmjs.com/package/geb.js) package this class is only available in a [separate package](https://www.npmjs.com/package/@reflexer-finance/geb-admin).
+**IMPORTANT:** To avoid bloating the main [geb.js](https://www.npmjs.com/package/geb.js) package this class is only available in a [separate package](https://www.npmjs.com/package/@money-god/geb-admin).
 Please install it like this:
 ```
-npm install @reflexer-finance/geb-admin
+npm install @money-god/geb-admin
 ```
 
-And you are ready to use the admin tools similar to the GEB class:
+And now you are ready to use the admin tools similar to the GEB class:
 
 ```typescript
 import { ethers } from 'ethers'
-import { GebAdmin } from "@reflexer-finance/geb-admin"
+import { GebAdmin } from "@money-god/geb-admin"
 
  const provider = new ethers.providers.JsonRpcProvider('http://kovan.infura.io/<API KEY>')
  const gebAdmin = new GebAdmin('kovan', provider)
@@ -22,17 +22,17 @@ import { GebAdmin } from "@reflexer-finance/geb-admin"
 ## Constructors
 
 
-\+ **new GebAdmin**(`network`: GebDeployment, `provider`: GebProviderInterface | Provider): *[GebAdmin](gebadmin.md)*
+\+ **new GebAdmin**(`network`: MultiCollateralGebDeployment, `provider`: GebProviderInterface | Provider): *[GebAdmin](gebadmin.md)*
 
 
-*Defined in [packages/geb-admin/src/geb-admin.ts:52](https://github.com/reflexer-labs/geb.js/blob/22d068f/packages/geb-admin/src/geb-admin.ts#L52)*
+*Defined in [packages/geb-admin/src/geb-admin.ts:53](https://github.com/money-god/geb.js/blob/e3ac661/packages/geb-admin/src/geb-admin.ts#L53)*
 
 **Parameters:**
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`network` | GebDeployment | Either `'kovan'`, `'mainnet'` or an actual list of contract addresses. |
-`provider` | GebProviderInterface &#124; Provider | Either a Ethers.js provider or a GEB provider. Support for Web3.js will soon be added.  |
+`network` | MultiCollateralGebDeployment | Either `'kovan'`, `'mainnet'` or an actual list of contract addresses. |
+`provider` | GebProviderInterface &#124; Provider | Either a Ethers.js provider or a GEB provider. Support for Web3.js will be added in the future.  |
 
 **Returns:** *[GebAdmin](gebadmin.md)*
 
@@ -40,23 +40,23 @@ Name | Type | Description |
 
 ###  contracts
 
-• **contracts**: *ContractApis*
+• **contracts**: *MultiCollateralContractApis*
 
 *Inherited from [GebAdmin](gebadmin.md).[contracts](gebadmin.md#contracts)*
 
-Defined in packages/geb/lib/geb.d.ts:70
+Defined in packages/geb/lib/geb.d.ts:69
 
-Object containing all GEB core smart-contracts instances for direct level interactions. All of the
-following contracts object are one-to-one typed API to the underlying smart-contract. Read-only
-functions that do not change the blockchain state return a promise of the return data. State modifying
-function will return synchronously a pre-filled transaction request object:
+Object containing all GEB core smart contract instances for direct level interactions. All of the
+following contract objects are one-to-one API typed to the underlying smart contracts. Read-only
+functions that do not change blockchain state return a promise of the return data. State modifying
+function will synchronously return a pre-filled transaction request object:
 ```
 {
   to: "0x123abc.."
   data: "0xabab234ab..."
 }
 ```
-This object follow the [TransactionRequest model of ethers.js](https://docs.ethers.io/v5/api/providers/types/#providers-TransactionRequest) (Also similar to the
+This object follow the [TransactionRequest model of ethers.js](https://docs.ethers.io/v5/api/providers/types/#providers-TransactionRequest) (also similar to the
 [model used by web.js](https://web3js.readthedocs.io/en/v1.3.0/web3-eth.html#id84)). The object can
 be completed with properties such as ` from `, ` gasPrice `, ` gas ` (gas limit, web3.js ony) or
 ` gasLimit ` (gas limit, ethers.js only). The object can then be passed to the `sendTransaction` of
@@ -70,10 +70,10 @@ be completed with properties such as ` from `, ` gasPrice `, ` gas ` (gas limit,
  const wallet = new ethers.Wallet('<Private key>', provider)
  const geb = new Geb('kovan', provider)
 
- // Contract read function: Fetch the debt ceiling
+ // Contract read function: fetch the debt ceiling
  const debtCeiling = await geb.contracts.safeEngine.globalDebtCeiling()
 
- // State changing function: Manualy liquidate a SAFE
+ // State changing function: manualy liquidate a SAFE
  const tx = geb.contracts.liquidationEngine.liquidateSAFE(ETH_A, '0x1234abc...')
  await wallet.sendTransaction(tx) // Send the Ethereum transaction
  ```
@@ -92,13 +92,13 @@ Currently the following contracts ae available in this property:
 - GetSafes
 - BasicCollateralJoin
 - CoinJoin
-- Coin (RAI ERC20 contract)
+- Coin (System coin ERC20 contract)
 - GebProxyRegistry
-- FixedDiscountCollateralAuctionHouse (For ETH-A)
+- IncreasingDiscountCollateralAuctionHouse
 - Weth (ERC20)
 
-For detailed information about the functions of each contract we recommend referring directly to the
-smart-contract [code](https://github.com/reflexer-labs/geb) and [documentation](https://docs.reflexer.finance/)
+For detailed information about the functions of each contract we recommend the smart contract
+[code](https://github.com/reflexer-labs/geb) and [documentation](https://docs.reflexer.finance/)
 
 ___
 
@@ -106,7 +106,7 @@ ___
 
 • **contractsAdmin**: *AdminApis*
 
-*Defined in [packages/geb-admin/src/geb-admin.ts:52](https://github.com/reflexer-labs/geb.js/blob/22d068f/packages/geb-admin/src/geb-admin.ts#L52)*
+*Defined in [packages/geb-admin/src/geb-admin.ts:53](https://github.com/money-god/geb.js/blob/e3ac661/packages/geb-admin/src/geb-admin.ts#L53)*
 
 Object containing all GEB admin contracts instances for low level interactions.
 It currently has the following contracts:
@@ -136,7 +136,7 @@ It currently has the following contracts:
 
 *Inherited from [GebAdmin](gebadmin.md).[deployProxy](gebadmin.md#deployproxy)*
 
-Defined in packages/geb/lib/geb.d.ts:88
+Defined in packages/geb/lib/geb.d.ts:87
 
 Deploy a new proxy owned by the sender.
 
@@ -166,9 +166,9 @@ ___
 
 *Inherited from [GebAdmin](gebadmin.md).[getErc20Contract](gebadmin.md#geterc20contract)*
 
-Defined in packages/geb/lib/geb.d.ts:123
+Defined in packages/geb/lib/geb.d.ts:122
 
-Returns an object that can be used to interact with a ERC20 token.
+Returns an object that can be used to interact with an ERC20 token.
 Example:
 ```typescript
 const USDCAddress = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
@@ -200,9 +200,9 @@ ___
 
 *Inherited from [GebAdmin](gebadmin.md).[getGebContract](gebadmin.md#static-getgebcontract)*
 
-Defined in packages/geb/lib/geb.d.ts:165
+Defined in packages/geb/lib/geb.d.ts:172
 
-Returns an instance of a specific geb contract given a Geb contract API class at a specified address
+Returns an instance of a specific GEB contract given a Geb contract API class at a specified address
 
 ```typescript
 import { contracts } from "geb.js"
@@ -225,44 +225,22 @@ Name | Type | Description |
 
 ___
 
-###  getIncentiveCampaignContract
-
-▸ **getIncentiveCampaignContract**(`campaignNumber`: number): *Promise‹StakingRewards›*
-
-*Inherited from [GebAdmin](gebadmin.md).[getIncentiveCampaignContract](gebadmin.md#getincentivecampaigncontract)*
-
-Defined in packages/geb/lib/geb.d.ts:131
-
- Help function to get the contract object of an incentive campaign given its number ID
-
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`campaignNumber` | number | incremental ID of the campaign  |
-
-**Returns:** *Promise‹StakingRewards›*
-
-StakingRewards
-
-___
-
 ###  getProxyAction
 
 ▸ **getProxyAction**(`ownerAddress`: string): *Promise‹GebProxyActions›*
 
 *Inherited from [GebAdmin](gebadmin.md).[getProxyAction](gebadmin.md#getproxyaction)*
 
-Defined in packages/geb/lib/geb.d.ts:84
+Defined in packages/geb/lib/geb.d.ts:83
 
-Given an address returns a GebProxyActions object to execute bundled operations.
-Important: This requires the address to have deployed a GEB proxy through the proxy registry contract. It will throw a `DOES_NOT_OWN_HAVE_PROXY` error if the address specified does not have a proxy. Use the [deployProxy](gebadmin.md#deployproxy) function to get a new proxy.
+Given an address, it returns a GebProxyActions object used to execute bundled operations.
+Important: This requires that the address deployed a GEB proxy through the proxy registry contract. It will throw a `DOES_NOT_OWN_HAVE_PROXY` error if the address specified does not have a proxy. Use the [deployProxy](gebadmin.md#deployproxy) function to get a new proxy.
 
 **Parameters:**
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`ownerAddress` | string | Externally owned user account, Ethereum address that owns a GEB proxy.  |
+`ownerAddress` | string | Externally owned user account aka Ethereum address that owns a GEB proxy.  |
 
 **Returns:** *Promise‹GebProxyActions›*
 
@@ -274,7 +252,7 @@ ___
 
 *Inherited from [GebAdmin](gebadmin.md).[getSafe](gebadmin.md#getsafe)*
 
-Defined in packages/geb/lib/geb.d.ts:93
+Defined in packages/geb/lib/geb.d.ts:92
 
 Get the SAFE object given a `safeManager` id or a `safeEngine` handler address.
 
@@ -295,14 +273,14 @@ ___
 
 *Inherited from [GebAdmin](gebadmin.md).[getSafeFromOwner](gebadmin.md#getsafefromowner)*
 
-Defined in packages/geb/lib/geb.d.ts:104
+Defined in packages/geb/lib/geb.d.ts:103
 
 Fetch the list of safes owned by an address. This function will fetch safes owned directly
-through the safeManager and safes owned through the safe manager through a proxy. Safes owned
+through the safeManager and safes owned through the safe manager by a proxy. Safes owned
 directly by the address at the safeEngine level won't appear here.
 
 Note that this function will make a lot of network calls and is therefore very slow. For
-front-ends we recommend using pre-indexed data such as the geb-subgraph.
+front-ends we recommend using pre-indexed data from a source such as the geb-subgraph.
 
 **Parameters:**
 
@@ -318,9 +296,9 @@ ___
 
 ▸ **gnosisSafeThreshold1SubmitTransaction**(`sender`: string, `to`: string, `data`: string): *TransactionRequest*
 
-*Defined in [packages/geb-admin/src/geb-admin.ts:203](https://github.com/reflexer-labs/geb.js/blob/22d068f/packages/geb-admin/src/geb-admin.ts#L203)*
+*Defined in [packages/geb-admin/src/geb-admin.ts:203](https://github.com/money-god/geb.js/blob/e3ac661/packages/geb-admin/src/geb-admin.ts#L203)*
 
-Submit a transaction to a gnosis safe directly executed. Works only if the threshold on the safe is 1.
+Submit a transaction to a Gnosis Safe and directly execute it. Works only if the threshold on Gnosis Safe is 1.
 
 **Parameters:**
 
@@ -328,7 +306,7 @@ Name | Type | Description |
 ------ | ------ | ------ |
 `sender` | string | Proposal submitter |
 `to` | string | Proposal target (Usually ds-pause) |
-`data` | string | transaction data of the proposal  |
+`data` | string | Transaction data of the proposal  |
 
 **Returns:** *TransactionRequest*
 
@@ -340,7 +318,7 @@ ___
 
 *Inherited from [GebAdmin](gebadmin.md).[multiCall](gebadmin.md#multicall)*
 
-Defined in packages/geb/lib/geb.d.ts:136
+Defined in packages/geb/lib/geb.d.ts:143
 
 **Type parameters:**
 
@@ -364,16 +342,16 @@ ___
 
 ▸ **verifyWebScheduleCallcode**(`govFunctionAbi`: string, `params`: any[], `earliestExecutionTime`: number, `calldata`: string, `description?`: string): *Promise‹boolean›*
 
-*Defined in [packages/geb-admin/src/geb-admin.ts:75](https://github.com/reflexer-labs/geb.js/blob/22d068f/packages/geb-admin/src/geb-admin.ts#L75)*
+*Defined in [packages/geb-admin/src/geb-admin.ts:76](https://github.com/money-god/geb.js/blob/e3ac661/packages/geb-admin/src/geb-admin.ts#L76)*
 
-Verifies a transaction for scheduling proposals
+Verifies a transaction meant to schedule a proposal
 
 **Parameters:**
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`govFunctionAbi` | string | Human readable abi from gov actions or proxy of choice -> "setDelay(address,uint256)" |
-`params` | any[] | Array containing all for the above function |
+`govFunctionAbi` | string | Human readable ABI from gov actions or proxy of choice -> "setDelay(address,uint256)" |
+`params` | any[] | Array containing function params |
 `earliestExecutionTime` | number | - |
 `calldata` | string | to verify |
 `description?` | string | - |
@@ -386,19 +364,20 @@ ___
 
 ###  webExecuteProposal
 
-▸ **webExecuteProposal**(`govFunctionAbi`: string, `params`: any[], `earliestExecutionTime`: number): *Promise‹TransactionRequest›*
+▸ **webExecuteProposal**(`govFunctionAbi`: string, `params`: any[], `earliestExecutionTime`: number, `govAction`: string): *Promise‹TransactionRequest›*
 
-*Defined in [packages/geb-admin/src/geb-admin.ts:99](https://github.com/reflexer-labs/geb.js/blob/22d068f/packages/geb-admin/src/geb-admin.ts#L99)*
+*Defined in [packages/geb-admin/src/geb-admin.ts:100](https://github.com/money-god/geb.js/blob/e3ac661/packages/geb-admin/src/geb-admin.ts#L100)*
 
-Encodes executing a proposal in dspause for web GUI
+Encodes a proposal execution in DSPause
 
 **Parameters:**
 
-Name | Type | Description |
------- | ------ | ------ |
-`govFunctionAbi` | string | Human readable abi from gov actions or proxy of choice -> "setDelay(address,uint256)" |
-`params` | any[] | Array containing all for the above function |
-`earliestExecutionTime` | number | - |
+Name | Type | Default | Description |
+------ | ------ | ------ | ------ |
+`govFunctionAbi` | string | - | Human readable ABI from gov actions or proxy of choice -> "setDelay(address,uint256)" |
+`params` | any[] | - | Array containing function params |
+`earliestExecutionTime` | number | - | - |
+`govAction` | string | this.addresses.GEB_GOV_ACTIONS | - |
 
 **Returns:** *Promise‹TransactionRequest›*
 
@@ -408,20 +387,21 @@ ___
 
 ###  webScheduleProposal
 
-▸ **webScheduleProposal**(`govFunctionAbi`: string, `params`: any[], `earliestExecutionTime`: number, `description?`: string): *Promise‹object›*
+▸ **webScheduleProposal**(`govFunctionAbi`: string, `params`: any[], `earliestExecutionTime`: number, `description?`: string, `govAction`: string): *Promise‹object›*
 
-*Defined in [packages/geb-admin/src/geb-admin.ts:124](https://github.com/reflexer-labs/geb.js/blob/22d068f/packages/geb-admin/src/geb-admin.ts#L124)*
+*Defined in [packages/geb-admin/src/geb-admin.ts:124](https://github.com/money-god/geb.js/blob/e3ac661/packages/geb-admin/src/geb-admin.ts#L124)*
 
-Encodes scheduling a proposal in dspause for web GUI
+Encodes a proposal scheduling tx for DSPause
 
 **Parameters:**
 
-Name | Type | Description |
------- | ------ | ------ |
-`govFunctionAbi` | string | Human readable abi from gov actions or proxy of choice -> "setDelay(address,uint256)" |
-`params` | any[] | Array containing all for the above function |
-`earliestExecutionTime` | number | - |
-`description?` | string | - |
+Name | Type | Default | Description |
+------ | ------ | ------ | ------ |
+`govFunctionAbi` | string | - | Human readable ABI from gov actions or proxy of choice -> "setDelay(address,uint256)" |
+`params` | any[] | - | Array containing function params |
+`earliestExecutionTime` | number | - | - |
+`description?` | string | - | - |
+`govAction` | string | this.addresses.GEB_GOV_ACTIONS | - |
 
 **Returns:** *Promise‹object›*
 
@@ -431,20 +411,21 @@ ___
 
 ###  webTestScheduleProposal
 
-▸ **webTestScheduleProposal**(`govFunctionAbi`: string, `params`: any[], `earliestExecutionTime`: number, `description?`: string): *Promise‹void›*
+▸ **webTestScheduleProposal**(`govFunctionAbi`: string, `params`: any[], `earliestExecutionTime`: number, `description?`: string, `govAction`: string): *Promise‹void›*
 
-*Defined in [packages/geb-admin/src/geb-admin.ts:173](https://github.com/reflexer-labs/geb.js/blob/22d068f/packages/geb-admin/src/geb-admin.ts#L173)*
+*Defined in [packages/geb-admin/src/geb-admin.ts:172](https://github.com/money-god/geb.js/blob/e3ac661/packages/geb-admin/src/geb-admin.ts#L172)*
 
-Test the execution of a proposal about to be schedule in dspause with web GUI
+Test the execution of a proposal that's about to be scheduled in DSPause
 
 **Parameters:**
 
-Name | Type | Description |
------- | ------ | ------ |
-`govFunctionAbi` | string | Human readable abi from gov actions or proxy of choice -> "setDelay(address,uint256)" |
-`params` | any[] | Array containing all for the above function |
-`earliestExecutionTime` | number | - |
-`description?` | string | - |
+Name | Type | Default | Description |
+------ | ------ | ------ | ------ |
+`govFunctionAbi` | string | - | Human readable abi from gov actions or proxy of choice -> "setDelay(address,uint256)" |
+`params` | any[] | - | Array containing function params |
+`earliestExecutionTime` | number | - | - |
+`description?` | string | - | - |
+`govAction` | string | this.addresses.GEB_GOV_ACTIONS | - |
 
 **Returns:** *Promise‹void›*
 
@@ -458,9 +439,9 @@ ___
 
 *Inherited from [GebAdmin](gebadmin.md).[getGebContract](gebadmin.md#static-getgebcontract)*
 
-Defined in packages/geb/lib/geb.d.ts:152
+Defined in packages/geb/lib/geb.d.ts:159
 
-Returns an instance of a specific geb contract given Geb contract API class constructor at a specified address
+Returns an instance of a specific geb contract given a Geb contract API class constructor at a specified address
 
 **Type parameters:**
 

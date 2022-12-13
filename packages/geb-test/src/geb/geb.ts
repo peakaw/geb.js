@@ -2,12 +2,12 @@ import { ethers } from 'ethers'
 import assert from 'assert'
 
 import { ETH_A, NULL_ADDRESS, ONE_ADDRESS } from '../const'
-import { Geb, GebErrorTypes, utils, contracts } from 'geb.js'
+import { Geb, GebErrorTypes, utils, contracts } from 'mcgeb.js'
 import { sethCall } from '../utils'
 import {
     ContractList,
     GebProviderInterface,
-} from '@reflexer-finance/geb-contract-base'
+} from '@money-god/geb-contract-base'
 
 export const testsGeb = (
     gebProvider: GebProviderInterface,
@@ -198,7 +198,7 @@ export const testsGeb = (
             // Should get the right ETH auction house
             assert.ok(
                 res[2].collateralAuctionHouse,
-                addresses.GEB_COLLATERAL_AUCTION_HOUSE_ETH_A
+                addresses.COLLATERAL_AUCTION_HOUSE_ETH_A
             )
         })
 
