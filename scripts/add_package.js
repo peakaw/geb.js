@@ -12,14 +12,14 @@ fs.mkdirSync(`packages/${name}/src`, { recursive: true })
 
 const packageJson = `
 {
-    "name": "@reflexer-finance/${name}",
+    "name": "@money-god/${name}",
     "version": "0.0.0",
     "description": "",
     "main": "./lib/index.js",
     "scripts": {
       "test": "echo \\"Error: no test specified\\" && exit 1"
     },
-    "author": "Guillaume Felley <guillaume@reflexer.finance>",
+    "author": "<peakaw@protonmail.com>",
     "license": "MIT"
   }
 `

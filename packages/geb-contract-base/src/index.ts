@@ -12,9 +12,9 @@ import {
     GebContractAPIConstructorInterface,
 } from './base-contract-api'
 import {
-    MC_OPTIMISM_ADDRESSES,
+    MC_GOERLI_ADDRESSES,
     MC_LOCAL_ADDRESSES,
-    KOVAN_ADDRESSES,
+    MC_MAINNET_ADDRESSES,
     MAINNET_ADDRESSES,
     MultiCollateralGebDeployment,
     GebDeployment,
@@ -39,9 +39,9 @@ export {
     TransactionRequest,
     MulticallRequest,
     // Addresses
-    MC_OPTIMISM_ADDRESSES,
+    MC_GOERLI_ADDRESSES,
     MC_LOCAL_ADDRESSES,
-    KOVAN_ADDRESSES,
+    MC_MAINNET_ADDRESSES,
     MAINNET_ADDRESSES,
     MultiCollateralGebDeployment,
     GebDeployment,

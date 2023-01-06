@@ -104,18 +104,6 @@ export class Coin extends BaseContractAPI {
         return this.getTransactionRequest(abi, [usr, amount])
     }
 
-    chainId(): Promise<BigNumber>
-    chainId(multicall: true): MulticallRequest<BigNumber>
-    chainId(
-        multicall?: true
-    ): Promise<BigNumber> | MulticallRequest<BigNumber> {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[],"name":"chainId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
-
-        return this.ethCallOrMulticall(abi, [], multicall)
-    }
-
     decimals(): Promise<number>
     decimals(multicall: true): MulticallRequest<number>
     decimals(multicall?: true): Promise<number> | MulticallRequest<number> {

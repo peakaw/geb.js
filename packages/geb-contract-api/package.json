@@ -1,6 +1,6 @@
 {
     "name": "@money-god/geb-contract-api",
-    "version": "1.0.10",
+    "version": "1.0.13",
     "description": "",
     "main": "./lib/index.js",
     "scripts": {
@@ -10,14 +10,14 @@
     "license": "MIT",
     "dependencies": {
         "@ethersproject/bignumber": "5.x",
-        "@money-god/geb-contract-base": "^1.0.9"
+        "@money-god/geb-contract-base": "^1.0.12"
     },
     "devDependencies": {
-        "@money-god/geb-typechain": "^1.0.10",
+        "@money-god/geb-typechain": "^1.0.13",
         "typechain": "^2.0.0"
     },
     "publishConfig": {
         "access": "public"
     },
-    "gitHead": "e0627bb7c504fc78cc65315ac4b98da65eeaea1b"
+    "gitHead": "1a5e4fd8ffa47280eaed945d831c21922439c4a5"
 }

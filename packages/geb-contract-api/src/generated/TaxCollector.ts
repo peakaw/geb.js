@@ -9,49 +9,10 @@ import { BigNumberish } from '@ethersproject/bignumber'
 import { BigNumber } from '@ethersproject/bignumber'
 
 export class TaxCollector extends BaseContractAPI {
-    INT256_MIN(): Promise<BigNumber>
-    INT256_MIN(multicall: true): MulticallRequest<BigNumber>
-    INT256_MIN(
-        multicall?: true
-    ): Promise<BigNumber> | MulticallRequest<BigNumber> {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[],"name":"INT256_MIN","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"}
-
-        return this.ethCallOrMulticall(abi, [], multicall)
-    }
-
-    ONE(): Promise<BigNumber>
-    ONE(multicall: true): MulticallRequest<BigNumber>
-    ONE(multicall?: true): Promise<BigNumber> | MulticallRequest<BigNumber> {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[],"name":"ONE","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
-
-        return this.ethCallOrMulticall(abi, [], multicall)
-    }
-
-    RAY(): Promise<BigNumber>
-    RAY(multicall: true): MulticallRequest<BigNumber>
-    RAY(multicall?: true): Promise<BigNumber> | MulticallRequest<BigNumber> {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[],"name":"RAY","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
-
-        return this.ethCallOrMulticall(abi, [], multicall)
-    }
-
-    WHOLE_TAX_CUT(): Promise<BigNumber>
-    WHOLE_TAX_CUT(multicall: true): MulticallRequest<BigNumber>
-    WHOLE_TAX_CUT(
-        multicall?: true
-    ): Promise<BigNumber> | MulticallRequest<BigNumber> {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[],"name":"WHOLE_TAX_CUT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
-
-        return this.ethCallOrMulticall(abi, [], multicall)
-    }
+    /**
+     * Add auth to an account
+     * @param account Account to add auth to
+     */
 
     addAuthorization(account: string): TransactionRequest {
         // prettier-ignore
@@ -93,6 +54,9 @@ export class TaxCollector extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [uinteger], multicall)
     }
 
+    /**
+     * Get the collateralList length
+     */
     collateralListLength(): Promise<BigNumber>
     collateralListLength(multicall: true): MulticallRequest<BigNumber>
     collateralListLength(
@@ -137,6 +101,9 @@ export class TaxCollector extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [bytes], multicall)
     }
 
+    /**
+     * Check if multiple collateral types are up to date with taxation
+     */
     collectedManyTax(start: BigNumberish, end: BigNumberish): Promise<boolean>
     collectedManyTax(
         start: BigNumberish,
@@ -167,6 +134,11 @@ export class TaxCollector extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
+    /**
+     * Initialize a brand new collateral type
+     * @param collateralType Collateral type name (e.g ETH-A, TBTC-B)
+     */
+
     initializeCollateralType(collateralType: BytesLike): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -175,6 +147,9 @@ export class TaxCollector extends BaseContractAPI {
         return this.getTransactionRequest(abi, [collateralType])
     }
 
+    /**
+     * Check if a tax receiver is at a certain position in the list
+     */
     isSecondaryReceiver(_receiver: BigNumberish): Promise<boolean>
     isSecondaryReceiver(
         _receiver: BigNumberish,
@@ -215,6 +190,14 @@ export class TaxCollector extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
+    /**
+     * Create or modify a secondary tax receiver's data
+     * @param collateralType Collateral type that will give SF to the tax receiver
+     * @param position Receiver position in the list. Used to determine whether a new tax receiver is created or an existing one is edited
+     * @param receiverAccount Receiver address
+     * @param taxPercentage Percentage of SF offered to the tax receiver
+     */
+
     modifyParameters__Bytes32Uint256Uint256Address(
         collateralType: BytesLike,
         position: BigNumberish,
@@ -233,6 +216,13 @@ export class TaxCollector extends BaseContractAPI {
         ])
     }
 
+    /**
+     * Set whether a tax receiver can incur negative fees
+     * @param collateralType Collateral type giving fees to the tax receiver
+     * @param position Receiver position in the list
+     * @param val Value that specifies whether a tax receiver can incur negative rates
+     */
+
     modifyParameters__Bytes32Uint256Uint256(
         collateralType: BytesLike,
         position: BigNumberish,
@@ -245,6 +235,12 @@ export class TaxCollector extends BaseContractAPI {
         return this.getTransactionRequest(abi, [collateralType, position, val])
     }
 
+    /**
+     * Modify general address params
+     * @param data New value for the parameter
+     * @param parameter The name of the parameter modified
+     */
+
     modifyParameters__Bytes32Address(
         parameter: BytesLike,
         data: string
@@ -255,6 +251,13 @@ export class TaxCollector extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [parameter, data])
     }
+
+    /**
+     * Modify collateral specific uint params
+     * @param collateralType Collateral type who's parameter is modified
+     * @param data New value for the parameter
+     * @param parameter The name of the parameter modified
+     */
 
     modifyParameters__Bytes32Bytes32Uint256(
         collateralType: BytesLike,
@@ -271,6 +274,12 @@ export class TaxCollector extends BaseContractAPI {
             data,
         ])
     }
+
+    /**
+     * Modify general uint params
+     * @param data New value for the parameter
+     * @param parameter The name of the parameter modified
+     */
 
     modifyParameters__Bytes32Uint256(
         parameter: BytesLike,
@@ -294,6 +303,11 @@ export class TaxCollector extends BaseContractAPI {
 
         return this.ethCallOrMulticall(abi, [], multicall)
     }
+
+    /**
+     * Remove auth from an account
+     * @param account Account to remove auth from
+     */
 
     removeAuthorization(account: string): TransactionRequest {
         // prettier-ignore
@@ -373,6 +387,9 @@ export class TaxCollector extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [address], multicall)
     }
 
+    /**
+     * Get the secondary tax receiver list length
+     */
     secondaryReceiversAmount(): Promise<BigNumber>
     secondaryReceiversAmount(multicall: true): MulticallRequest<BigNumber>
     secondaryReceiversAmount(
@@ -420,6 +437,12 @@ export class TaxCollector extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [bytes, uinteger], multicall)
     }
 
+    /**
+     * Collect tax from multiple collateral types at once
+     * @param end Index in collateralList at which we stop looping and calculating the tax outcome
+     * @param start Index in collateralList from which to start looping and calculating the tax outcome
+     */
+
     taxMany(start: BigNumberish, end: BigNumberish): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -428,6 +451,11 @@ export class TaxCollector extends BaseContractAPI {
         return this.getTransactionRequest(abi, [start, end])
     }
 
+    /**
+     * Check how much SF will be charged (to collateral types between indexes 'start' and 'end'        in the collateralList) during the next taxation
+     * @param end Index in collateralList at which we stop looping and calculating the tax outcome
+     * @param start Index in collateralList from which to start looping and calculating the tax outcome
+     */
     taxManyOutcome(
         start: BigNumberish,
         end: BigNumberish
@@ -463,6 +491,11 @@ export class TaxCollector extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [start, end], multicall)
     }
 
+    /**
+     * Collect tax from a single collateral type
+     * @param collateralType Collateral type to tax
+     */
+
     taxSingle(collateralType: BytesLike): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -471,6 +504,10 @@ export class TaxCollector extends BaseContractAPI {
         return this.getTransactionRequest(abi, [collateralType])
     }
 
+    /**
+     * Get how much SF will be distributed after taxing a specific collateral type
+     * @param collateralType Collateral type to compute the taxation outcome for
+     */
     taxSingleOutcome(
         collateralType: BytesLike
     ): Promise<{

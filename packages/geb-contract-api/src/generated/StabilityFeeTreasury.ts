@@ -9,6 +9,18 @@ import { BigNumberish } from '@ethersproject/bignumber'
 import { BigNumber } from '@ethersproject/bignumber'
 
 export class StabilityFeeTreasury extends BaseContractAPI {
+    accountingEngine(): Promise<string>
+    accountingEngine(multicall: true): MulticallRequest<string>
+    accountingEngine(
+        multicall?: true
+    ): Promise<string> | MulticallRequest<string> {
+        // prettier-ignore
+        // @ts-ignore
+        const abi = {"inputs":[],"name":"accountingEngine","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}
+
+        return this.ethCallOrMulticall(abi, [], multicall)
+    }
+
     accumulatorTag(): Promise<BigNumber>
     accumulatorTag(multicall: true): MulticallRequest<BigNumber>
     accumulatorTag(
@@ -20,6 +32,11 @@ export class StabilityFeeTreasury extends BaseContractAPI {
 
         return this.ethCallOrMulticall(abi, [], multicall)
     }
+
+    /**
+     * Add auth to an account
+     * @param account Account to add auth to
+     */
 
     addAuthorization(account: string): TransactionRequest {
         // prettier-ignore
@@ -67,6 +84,10 @@ export class StabilityFeeTreasury extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
+    /**
+     * Disable this contract (normally called by GlobalSettlement)
+     */
+
     disableContract(): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -95,18 +116,6 @@ export class StabilityFeeTreasury extends BaseContractAPI {
         // prettier-ignore
         // @ts-ignore
         const abi = {"inputs":[],"name":"expensesMultiplier","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
-
-        return this.ethCallOrMulticall(abi, [], multicall)
-    }
-
-    extraSurplusReceiver(): Promise<string>
-    extraSurplusReceiver(multicall: true): MulticallRequest<string>
-    extraSurplusReceiver(
-        multicall?: true
-    ): Promise<string> | MulticallRequest<string> {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[],"name":"extraSurplusReceiver","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}
 
         return this.ethCallOrMulticall(abi, [], multicall)
     }
@@ -143,6 +152,12 @@ export class StabilityFeeTreasury extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [account], multicall)
     }
 
+    /**
+     * Governance transfers SF to an address
+     * @param account Address to transfer SF to
+     * @param rad Amount of internal system coins to transfer (a number with 45 decimals)
+     */
+
     giveFunds(account: string, rad: BigNumberish): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -175,6 +190,12 @@ export class StabilityFeeTreasury extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
+    /**
+     * Modify contract addresses
+     * @param addr New address for the contract
+     * @param parameter The name of the contract whose address will be changed
+     */
+
     modifyParameters__Bytes32Address(
         parameter: BytesLike,
         addr: string
@@ -185,6 +206,12 @@ export class StabilityFeeTreasury extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [parameter, addr])
     }
+
+    /**
+     * Modify uint256 parameters
+     * @param parameter The name of the parameter to modify
+     * @param val New parameter value
+     */
 
     modifyParameters__Bytes32Uint256(
         parameter: BytesLike,
@@ -197,6 +224,13 @@ export class StabilityFeeTreasury extends BaseContractAPI {
         return this.getTransactionRequest(abi, [parameter, val])
     }
 
+    /**
+     * Pull stability fees from the treasury (if your allowance permits)
+     * @param dstAccount Address to transfer funds to
+     * @param token Address of the token to transfer (in this case it must be the address of the ERC20 system coin).             Used only to adhere to a standard for automated, on-chain treasuries
+     * @param wad Amount of system coins (SF) to transfer (expressed as an 18 decimal number but the contract will transfer internal system coins that have 45 decimals)
+     */
+
     pullFunds(
         dstAccount: string,
         token: string,
@@ -207,18 +241,6 @@ export class StabilityFeeTreasury extends BaseContractAPI {
         const abi = {"inputs":[{"internalType":"address","name":"dstAccount","type":"address"},{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"wad","type":"uint256"}],"name":"pullFunds","outputs":[],"stateMutability":"nonpayable","type":"function"}
 
         return this.getTransactionRequest(abi, [dstAccount, token, wad])
-    }
-
-    pullFundsMinThreshold(): Promise<BigNumber>
-    pullFundsMinThreshold(multicall: true): MulticallRequest<BigNumber>
-    pullFundsMinThreshold(
-        multicall?: true
-    ): Promise<BigNumber> | MulticallRequest<BigNumber> {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[],"name":"pullFundsMinThreshold","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
-
-        return this.ethCallOrMulticall(abi, [], multicall)
     }
 
     pulledPerBlock(address: string, uinteger: BigNumberish): Promise<BigNumber>
@@ -239,6 +261,11 @@ export class StabilityFeeTreasury extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [address, uinteger], multicall)
     }
 
+    /**
+     * Remove auth from an account
+     * @param account Account to remove auth from
+     */
+
     removeAuthorization(account: string): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -257,6 +284,12 @@ export class StabilityFeeTreasury extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
+    /**
+     * Modify an address' per block allowance in order to withdraw SF from the treasury
+     * @param account The approved address
+     * @param rad The per block approved amount of SF to withdraw (number with 45 decimals)
+     */
+
     setPerBlockAllowance(
         account: string,
         rad: BigNumberish
@@ -268,20 +301,18 @@ export class StabilityFeeTreasury extends BaseContractAPI {
         return this.getTransactionRequest(abi, [account, rad])
     }
 
+    /**
+     * Modify an address' total allowance in order to withdraw SF from the treasury
+     * @param account The approved address
+     * @param rad The total approved amount of SF to withdraw (number with 45 decimals)
+     */
+
     setTotalAllowance(account: string, rad: BigNumberish): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
         const abi = {"inputs":[{"internalType":"address","name":"account","type":"address"},{"internalType":"uint256","name":"rad","type":"uint256"}],"name":"setTotalAllowance","outputs":[],"stateMutability":"nonpayable","type":"function"}
 
         return this.getTransactionRequest(abi, [account, rad])
-    }
-
-    settleDebt(): TransactionRequest {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[],"name":"settleDebt","outputs":[],"stateMutability":"nonpayable","type":"function"}
-
-        return this.getTransactionRequest(abi, [])
     }
 
     surplusTransferDelay(): Promise<BigNumber>
@@ -306,6 +337,12 @@ export class StabilityFeeTreasury extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
+    /**
+     * Governance takes funds from an address
+     * @param account Address to take system coins from
+     * @param rad Amount of internal system coins to take from the account (a number with 45 decimals)
+     */
+
     takeFunds(account: string, rad: BigNumberish): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -313,6 +350,10 @@ export class StabilityFeeTreasury extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [account, rad])
     }
+
+    /**
+     * Transfer surplus stability fees to the AccountingEngine. This is here to make sure that the treasury doesn't accumulate too many fees that it doesn't even need in order to pay for allowances. It ensures that there are enough funds left in the treasury to account for projected expenses (latest expenses multiplied by an expense multiplier)
+     */
 
     transferSurplusFunds(): TransactionRequest {
         // prettier-ignore

@@ -4,13 +4,13 @@
             "inputs": [
                 {
                     "internalType": "address",
-                    "name": "safeEngine_",
+                    "name": "accountingEngine_",
                     "type": "address"
                 },
                 {
-                    "internalType": "bytes32",
-                    "name": "collateralType_",
-                    "type": "bytes32"
+                    "internalType": "address",
+                    "name": "surplusAuctionHouse_",
+                    "type": "address"
                 }
             ],
             "stateMutability": "nonpayable",
@@ -31,8 +31,27 @@
         },
         {
             "anonymous": false,
-            "inputs": [],
-            "name": "DisableContract",
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "id",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "lastSurplusAuctionTime",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "coinBalance",
+                    "type": "uint256"
+                }
+            ],
+            "name": "AuctionSurplus",
             "type": "event"
         },
         {
@@ -40,49 +59,18 @@
             "inputs": [
                 {
                     "indexed": false,
-                    "internalType": "address",
-                    "name": "sender",
-                    "type": "address"
+                    "internalType": "bytes32",
+                    "name": "parameter",
+                    "type": "bytes32"
                 },
                 {
                     "indexed": false,
                     "internalType": "address",
-                    "name": "account",
+                    "name": "addr",
                     "type": "address"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "wad",
-                    "type": "uint256"
                 }
             ],
-            "name": "Exit",
-            "type": "event"
-        },
-        {
-            "anonymous": false,
-            "inputs": [
-                {
-                    "indexed": false,
-                    "internalType": "address",
-                    "name": "sender",
-                    "type": "address"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "address",
-                    "name": "account",
-                    "type": "address"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "wad",
-                    "type": "uint256"
-                }
-            ],
-            "name": "Join",
+            "name": "ModifyParameters",
             "type": "event"
         },
         {
@@ -99,6 +87,19 @@
             "type": "event"
         },
         {
+            "inputs": [],
+            "name": "accountingEngine",
+            "outputs": [
+                {
+                    "internalType": "contract AccountingEngineLike",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
             "inputs": [
                 {
                     "internalType": "address",
@@ -108,6 +109,15 @@
             ],
             "name": "addAuthorization",
             "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "auctionSurplus",
+            "outputs": [
+                { "internalType": "uint256", "name": "id", "type": "uint256" }
+            ],
             "stateMutability": "nonpayable",
             "type": "function"
         },
@@ -124,63 +134,25 @@
         },
         {
             "inputs": [],
-            "name": "collateralType",
-            "outputs": [
-                { "internalType": "bytes32", "name": "", "type": "bytes32" }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "contractEnabled",
+            "name": "lastSurplusAuctionTime",
             "outputs": [
                 { "internalType": "uint256", "name": "", "type": "uint256" }
             ],
             "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "decimals",
-            "outputs": [
-                { "internalType": "uint256", "name": "", "type": "uint256" }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "disableContract",
-            "outputs": [],
-            "stateMutability": "nonpayable",
             "type": "function"
         },
         {
             "inputs": [
                 {
-                    "internalType": "address payable",
-                    "name": "account",
-                    "type": "address"
+                    "internalType": "bytes32",
+                    "name": "parameter",
+                    "type": "bytes32"
                 },
-                { "internalType": "uint256", "name": "wad", "type": "uint256" }
+                { "internalType": "address", "name": "addr", "type": "address" }
             ],
-            "name": "exit",
+            "name": "modifyParameters",
             "outputs": [],
             "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "account",
-                    "type": "address"
-                }
-            ],
-            "name": "join",
-            "outputs": [],
-            "stateMutability": "payable",
             "type": "function"
         },
         {
@@ -208,6 +180,19 @@
             ],
             "stateMutability": "view",
             "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "surplusAuctionHouse",
+            "outputs": [
+                {
+                    "internalType": "contract SurplusAuctionHouseLike",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
         }
     ],
     "devdoc": {
@@ -215,14 +200,10 @@
             "addAuthorization(address)": {
                 "params": { "account": "Account to add auth to" }
             },
-            "exit(address,uint256)": {
+            "modifyParameters(bytes32,address)": {
                 "params": {
-                    "account": "Account that will receive the ETH representation inside the system*"
-                }
-            },
-            "join(address)": {
-                "params": {
-                    "account": "Account that will receive the ETH representation inside the system*"
+                    "addr": "New address for the contract",
+                    "parameter": "The name of the contract whose address will be changed"
                 }
             },
             "removeAuthorization(address)": {
@@ -233,9 +214,12 @@
     "userdoc": {
         "methods": {
             "addAuthorization(address)": { "notice": "Add auth to an account" },
-            "disableContract()": { "notice": "Disable this contract" },
-            "exit(address,uint256)": { "notice": "Exit ETH from the system" },
-            "join(address)": { "notice": "Join ETH in the system" },
+            "auctionSurplus()": {
+                "notice": "Auction stability fees. The process is very similar to how the AccountingEngine would do it. The contract even reads surplus auction parameters from the AccountingEngine and uses them to start a new auction."
+            },
+            "modifyParameters(bytes32,address)": {
+                "notice": "Modify contract addresses"
+            },
             "removeAuthorization(address)": {
                 "notice": "Remove auth from an account"
             }

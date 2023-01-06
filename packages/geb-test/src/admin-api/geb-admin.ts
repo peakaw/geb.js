@@ -1,12 +1,12 @@
 import { GebAdmin } from '@money-god/geb-admin'
 import assert from 'assert'
-import { ContractList, GebEthersProvider } from 'mcgeb.js'
+import { MultiCollateralContractList, GebEthersProvider } from 'mcgeb.js'
 import { ethers } from 'ethers'
 
 export const testsGebAdmin = (
     rpcUrl: string,
-    networkName: 'kovan' | 'mainnet',
-    addresses: ContractList
+    networkName: 'mainnet' | 'goerli',
+    addresses: MultiCollateralContractList
 ) => {
     describe(`Network: ${networkName} RPC: ${rpcUrl}`, async () => {
         it('create a GebAdmin', async () => {

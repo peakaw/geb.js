@@ -9,6 +9,11 @@ import { BigNumberish } from '@ethersproject/bignumber'
 import { BigNumber } from '@ethersproject/bignumber'
 
 export class AccountingEngine extends BaseContractAPI {
+    /**
+     * Add auth to an account
+     * @param account Account to add auth to
+     */
+
     addAuthorization(account: string): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -17,6 +22,11 @@ export class AccountingEngine extends BaseContractAPI {
         return this.getTransactionRequest(abi, [account])
     }
 
+    /**
+     * We can only auction debt that is not already being auctioned and is not locked in the debt queue*
+     * Start a debt auction (print protocol tokens in exchange for coins so that the        system can accumulate surplus)
+     */
+
     auctionDebt(): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -24,6 +34,11 @@ export class AccountingEngine extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [])
     }
+
+    /**
+     * We can only auction surplus if we wait at least 'surplusAuctionDelay' seconds since the last     auction trigger, if we keep enough surplus in the buffer and if there is no bad debt to settle*
+     * Start a surplus auction
+     */
 
     auctionSurplus(): TransactionRequest {
         // prettier-ignore
@@ -49,17 +64,10 @@ export class AccountingEngine extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [address], multicall)
     }
 
-    canPrintProtocolTokens(): Promise<boolean>
-    canPrintProtocolTokens(multicall: true): MulticallRequest<boolean>
-    canPrintProtocolTokens(
-        multicall?: true
-    ): Promise<boolean> | MulticallRequest<boolean> {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[],"name":"canPrintProtocolTokens","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"}
-
-        return this.ethCallOrMulticall(abi, [], multicall)
-    }
+    /**
+     * Use surplus coins to destroy debt that is/was in a debt auction
+     * @param rad Amount of coins/debt to destroy (number with 45 decimals)*
+     */
 
     cancelAuctionedDebtWithSurplus(rad: BigNumberish): TransactionRequest {
         // prettier-ignore
@@ -105,22 +113,6 @@ export class AccountingEngine extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
-    debtPoppers(uinteger: BigNumberish): Promise<string>
-    debtPoppers(
-        uinteger: BigNumberish,
-        multicall: true
-    ): MulticallRequest<string>
-    debtPoppers(
-        uinteger: BigNumberish,
-        multicall?: true
-    ): Promise<string> | MulticallRequest<string> {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"debtPoppers","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}
-
-        return this.ethCallOrMulticall(abi, [uinteger], multicall)
-    }
-
     debtQueue(uinteger: BigNumberish): Promise<BigNumber>
     debtQueue(
         uinteger: BigNumberish,
@@ -136,6 +128,11 @@ export class AccountingEngine extends BaseContractAPI {
 
         return this.ethCallOrMulticall(abi, [uinteger], multicall)
     }
+
+    /**
+     * When we disable, the contract tries to settle as much debt as possible (if there's any) with any surplus that's left in the system. After erasing debt, the contract will either transfer any remaining surplus right away (if disableCooldown == 0) or will only record the timestamp when it was disabled*
+     * Disable this contract (normally called by Global Settlement)
+     */
 
     disableContract(): TransactionRequest {
         // prettier-ignore
@@ -169,30 +166,6 @@ export class AccountingEngine extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
-    extraSurplusIsTransferred(): Promise<BigNumber>
-    extraSurplusIsTransferred(multicall: true): MulticallRequest<BigNumber>
-    extraSurplusIsTransferred(
-        multicall?: true
-    ): Promise<BigNumber> | MulticallRequest<BigNumber> {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[],"name":"extraSurplusIsTransferred","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
-
-        return this.ethCallOrMulticall(abi, [], multicall)
-    }
-
-    extraSurplusReceiver(): Promise<string>
-    extraSurplusReceiver(multicall: true): MulticallRequest<string>
-    extraSurplusReceiver(
-        multicall?: true
-    ): Promise<string> | MulticallRequest<string> {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[],"name":"extraSurplusReceiver","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}
-
-        return this.ethCallOrMulticall(abi, [], multicall)
-    }
-
     initialDebtAuctionMintedTokens(): Promise<BigNumber>
     initialDebtAuctionMintedTokens(multicall: true): MulticallRequest<BigNumber>
     initialDebtAuctionMintedTokens(
@@ -217,17 +190,11 @@ export class AccountingEngine extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
-    lastSurplusTransferTime(): Promise<BigNumber>
-    lastSurplusTransferTime(multicall: true): MulticallRequest<BigNumber>
-    lastSurplusTransferTime(
-        multicall?: true
-    ): Promise<BigNumber> | MulticallRequest<BigNumber> {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[],"name":"lastSurplusTransferTime","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
-
-        return this.ethCallOrMulticall(abi, [], multicall)
-    }
+    /**
+     * Modify dependency addresses
+     * @param data New address for the auction
+     * @param parameter The name of the auction type we want to change the address for
+     */
 
     modifyParameters__Bytes32Address(
         parameter: BytesLike,
@@ -239,6 +206,12 @@ export class AccountingEngine extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [parameter, data])
     }
+
+    /**
+     * Modify general uint params for auctions
+     * @param data New value for the parameter
+     * @param parameter The name of the parameter modified
+     */
 
     modifyParameters__Bytes32Uint256(
         parameter: BytesLike,
@@ -262,6 +235,11 @@ export class AccountingEngine extends BaseContractAPI {
 
         return this.ethCallOrMulticall(abi, [], multicall)
     }
+
+    /**
+     * A block of debt can be popped from the queue after popDebtDelay seconds passed since it was        added there
+     * @param debtBlockTimestamp Timestamp of the block of debt that should be popped out
+     */
 
     popDebtFromQueue(debtBlockTimestamp: BigNumberish): TransactionRequest {
         // prettier-ignore
@@ -295,6 +273,12 @@ export class AccountingEngine extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
+    /**
+     * Debt is locked in a queue to give the system enough time to auction collateral     and gather surplus
+     * Push debt (that the system tries to cover with collateral auctions) to a queue
+     * @param debtBlock Amount of debt to push
+     */
+
     pushDebtToQueue(debtBlock: BigNumberish): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -302,6 +286,11 @@ export class AccountingEngine extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [debtBlock])
     }
+
+    /**
+     * Remove auth from an account
+     * @param account Account to remove auth from
+     */
 
     removeAuthorization(account: string): TransactionRequest {
         // prettier-ignore
@@ -320,6 +309,12 @@ export class AccountingEngine extends BaseContractAPI {
 
         return this.ethCallOrMulticall(abi, [], multicall)
     }
+
+    /**
+     * We can only destroy debt that is not locked in the queue and also not in a debt auction
+     * Destroy an equal amount of coins and debt
+     * @param rad Amount of coins/debt to destroy (number with 45 decimals)*
+     */
 
     settleDebt(rad: BigNumberish): TransactionRequest {
         // prettier-ignore
@@ -377,42 +372,6 @@ export class AccountingEngine extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
-    surplusTransferAmount(): Promise<BigNumber>
-    surplusTransferAmount(multicall: true): MulticallRequest<BigNumber>
-    surplusTransferAmount(
-        multicall?: true
-    ): Promise<BigNumber> | MulticallRequest<BigNumber> {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[],"name":"surplusTransferAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
-
-        return this.ethCallOrMulticall(abi, [], multicall)
-    }
-
-    surplusTransferDelay(): Promise<BigNumber>
-    surplusTransferDelay(multicall: true): MulticallRequest<BigNumber>
-    surplusTransferDelay(
-        multicall?: true
-    ): Promise<BigNumber> | MulticallRequest<BigNumber> {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[],"name":"surplusTransferDelay","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
-
-        return this.ethCallOrMulticall(abi, [], multicall)
-    }
-
-    systemStakingPool(): Promise<string>
-    systemStakingPool(multicall: true): MulticallRequest<string>
-    systemStakingPool(
-        multicall?: true
-    ): Promise<string> | MulticallRequest<string> {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[],"name":"systemStakingPool","outputs":[{"internalType":"contract SystemStakingPoolLike","name":"","type":"address"}],"stateMutability":"view","type":"function"}
-
-        return this.ethCallOrMulticall(abi, [], multicall)
-    }
-
     totalOnAuctionDebt(): Promise<BigNumber>
     totalOnAuctionDebt(multicall: true): MulticallRequest<BigNumber>
     totalOnAuctionDebt(
@@ -437,13 +396,10 @@ export class AccountingEngine extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
-    transferExtraSurplus(): TransactionRequest {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[],"name":"transferExtraSurplus","outputs":[],"stateMutability":"nonpayable","type":"function"}
-
-        return this.getTransactionRequest(abi, [])
-    }
+    /**
+     * Transfer any remaining surplus after disableCooldown seconds have passed since disabling the contract*
+     * Transfer any remaining surplus after the disable cooldown has passed
+     */
 
     transferPostSettlementSurplus(): TransactionRequest {
         // prettier-ignore

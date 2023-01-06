@@ -42,14 +42,10 @@ async function main() {
         console.log('Start geb-console on Mainnet...')
         network = 'mainnet'
         netId = 1
-    } else if (network === "rinkeby") {
-        console.log('Start geb-console on Rinkeby...')
-        network = 'rinkeby'
-        netId = 4
-    } else if (network === "kovan") {
+    } else if (network === "goerli") {
         console.log('Start geb-console on custom RPC...')
-        network = 'kovan'
-        netId = 42
+        network = 'goerli'
+        netId = 5
     } else if (network === "local") {
         console.log('Start geb-console on custom RPC...')
         network = 'local'
@@ -57,9 +53,9 @@ async function main() {
     } else if (network === "fantom") {
         console.log('Start geb-console on custom RPC...')
         network = 'fantom'
-        netId = 250
+        netId = 4002
     } else {
-        console.log("Unkown network please use mainnet, kovan or mainnet-fork")
+        console.log("Unkown network please use mainnet, goerlin or mainnet-fork")
         return
     }
 

@@ -147,6 +147,7 @@ export class MultiCollateralContractApis {
     public surplusAuctionHouse: BurningSurplusAuctionHouse
     public stabilityFeeTreasury: StabilityFeeTreasury
     public safeManager: GebSafeManager
+    public getSafes: GetSafes
     public joinETH_A: BasicCollateralJoin
     public joinETH_B: BasicCollateralJoin
     public joinETH_C: BasicCollateralJoin
@@ -189,6 +190,7 @@ export class MultiCollateralContractApis {
         this.surplusAuctionHouse = new BurningSurplusAuctionHouse(addressList.GEB_SURPLUS_AUCTION_HOUSE, this.chainProvider)
         this.stabilityFeeTreasury = new StabilityFeeTreasury(addressList.GEB_STABILITY_FEE_TREASURY, this.chainProvider)
         this.safeManager = new GebSafeManager(addressList.SAFE_MANAGER, this.chainProvider)
+        this.getSafes = new GetSafes(addressList.GET_SAFES, this.chainProvider)
         this.joinETH_A = new BasicCollateralJoin(addressList.GEB_JOIN_ETH_A, this.chainProvider)
         this.joinETH_B = new BasicCollateralJoin(addressList.GEB_JOIN_ETH_B, this.chainProvider)
         this.joinETH_C = new BasicCollateralJoin(addressList.GEB_JOIN_ETH_C, this.chainProvider)

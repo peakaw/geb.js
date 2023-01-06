@@ -45,6 +45,11 @@ export class DebtAuctionHouse extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
+    /**
+     * Add auth to an account
+     * @param account Account to add auth to
+     */
+
     addAuthorization(account: string): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -171,6 +176,13 @@ export class DebtAuctionHouse extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
+    /**
+     * Decrease the protocol token amount you're willing to receive in        exchange for providing the same amount of system coins being raised by the auction
+     * @param amountToBuy Amount of protocol tokens to buy (must be smaller than the previous proposed amount) (wad)
+     * @param bid New system coin bid (must always equal the total amount raised by the auction) (rad)
+     * @param id ID of the auction for which you want to submit a new bid
+     */
+
     decreaseSoldAmount(
         id: BigNumberish,
         amountToBuy: BigNumberish,
@@ -183,6 +195,10 @@ export class DebtAuctionHouse extends BaseContractAPI {
         return this.getTransactionRequest(abi, [id, amountToBuy, bid])
     }
 
+    /**
+     * Disable the auction house (usually called by the AccountingEngine)
+     */
+
     disableContract(): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -190,6 +206,12 @@ export class DebtAuctionHouse extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [])
     }
+
+    /**
+     * Change addresses of integrated contracts
+     * @param addr New contract address
+     * @param parameter The name of the oracle contract modified
+     */
 
     modifyParameters__Bytes32Address(
         parameter: BytesLike,
@@ -201,6 +223,12 @@ export class DebtAuctionHouse extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [parameter, addr])
     }
+
+    /**
+     * Modify auction parameters
+     * @param data New value for the parameter
+     * @param parameter The name of the parameter modified
+     */
 
     modifyParameters__Bytes32Uint256(
         parameter: BytesLike,
@@ -225,6 +253,11 @@ export class DebtAuctionHouse extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
+    /**
+     * Remove auth from an account
+     * @param account Account to remove auth from
+     */
+
     removeAuthorization(account: string): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -232,6 +265,11 @@ export class DebtAuctionHouse extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [account])
     }
+
+    /**
+     * Restart an auction if no bids were submitted for it
+     * @param id ID of the auction to restart
+     */
 
     restartAuction(id: BigNumberish): TransactionRequest {
         // prettier-ignore
@@ -251,6 +289,11 @@ export class DebtAuctionHouse extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
+    /**
+     * Settle/finish an auction
+     * @param id ID of the auction to settle
+     */
+
     settleAuction(id: BigNumberish): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -258,6 +301,13 @@ export class DebtAuctionHouse extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [id])
     }
+
+    /**
+     * Start a new debt auction
+     * @param amountToSell Amount of protocol tokens to sell (wad)
+     * @param incomeReceiver Who receives the auction proceeds
+     * @param initialBid Initial bid size (rad)
+     */
 
     startAuction(
         incomeReceiver: string,
@@ -274,6 +324,11 @@ export class DebtAuctionHouse extends BaseContractAPI {
             initialBid,
         ])
     }
+
+    /**
+     * Terminate an auction prematurely.
+     * @param id ID of the auction to terminate
+     */
 
     terminateAuctionPrematurely(id: BigNumberish): TransactionRequest {
         // prettier-ignore

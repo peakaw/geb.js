@@ -53,9 +53,9 @@ export class Geb {
      *  Example:
      *  ```typescript
      *  // Setup geb.js an ethers
-     *  const provider = new ethers.providers.JsonRpcProvider('http://kovan.infura.io/<API KEY>')
+     *  const provider = new ethers.providers.JsonRpcProvider('http://goerli.infura.io/<API KEY>')
      *  const wallet = new ethers.Wallet('<Private key>', provider)
-     *  const geb = new Geb('kovan', provider)
+     *  const geb = new Geb('goerli', provider)
      *
      *  // Contract read function: fetch the debt ceiling
      *  const debtCeiling = await geb.contracts.safeEngine.globalDebtCeiling()
@@ -93,7 +93,7 @@ export class Geb {
     protected addresses: MultiCollateralContractList
     /**
      * Constructor for the main Geb.js object.
-     * @param  {MultiCollateralGebDeployment} network Either `'kovan'`, `'mainnet'`, `'fantom'` or an actual list of contract addresses.
+     * @param  {MultiCollateralGebDeployment} network Either `'goerli'`, `'mainnet'`, `'fantom'` or an actual list of contract addresses.
      * @param  {GebProviderInterface|ethers.providers.Provider} provider Either a Ethers.js provider or a Geb provider (support for Web3 will be added in the future)
      */
     constructor(
@@ -383,8 +383,8 @@ export class Geb {
      * import { ethers } from "ethers"
      * import { Geb } from "geb.js"
      *
-     * const provider = new ethers.providers.JsonRpcProvider("http://kovan.infura.io/...")
-     * const geb = new Geb("kovan", provider);
+     * const provider = new ethers.providers.JsonRpcProvider("http://goerli.infura.io/...")
+     * const geb = new Geb("goerli", provider);
      *
      * const [ globalDebt, collateralInfo ] = await geb.multiCall([
      *     geb.contracts.safeEngine.globalDebt(true), // !! Note the last parameter set to true.

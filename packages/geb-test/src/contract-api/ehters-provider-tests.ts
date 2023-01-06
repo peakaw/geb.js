@@ -15,7 +15,7 @@ import { MultiCollateralContractList, ContractList, utils } from 'mcgeb.js'
 export const testsWithEthersProvider = (
     addresses: ContractList,
     rpcUrl: string,
-    networkName: 'mainnet' | 'kovan'
+    networkName: 'mainnet'
 ) => {
     describe(`Ethers only test. Network ${networkName} Rpc: ${rpcUrl}`, () => {
         let wallet: ethers.Wallet
@@ -148,7 +148,7 @@ export const testsWithEthersProvider = (
 export const testsMcWithEthersProvider = (
     addresses: MultiCollateralContractList,
     rpcUrl: string,
-    networkName: 'mainnet' | 'kovan' | 'local'
+    networkName: 'mainnet' | 'local' | 'goerli'
 ) => {
     describe(`Ethers only test. Network ${networkName} Rpc: ${rpcUrl}`, () => {
         let wallet: ethers.Wallet
@@ -183,7 +183,10 @@ export const testsMcWithEthersProvider = (
         })
 
         it('Test join function with ethers from contractApis', async () => {
-            const contracts = new ContractApis(networkName, gebProvider)
+            const contracts = new MultiCollateralContractApis(
+                networkName,
+                gebProvider
+            )
 
             const tx = await contracts.joinETH_A.join(
                 wallet.address,
@@ -244,7 +247,10 @@ export const testsMcWithEthersProvider = (
         })
 
         it('Test ethers payable call', async () => {
-            const contracts = new ContractApis(networkName, gebProvider)
+            const contracts = new MultiCollateralContractApis(
+                networkName,
+                gebProvider
+            )
             const weth = new Weth9(
                 await contracts.joinETH_A.collateral(),
                 gebProvider
@@ -257,7 +263,10 @@ export const testsMcWithEthersProvider = (
         })
 
         it('Test ethers payable sendTransaction insufficient funds', async () => {
-            const contracts = new ContractApis(networkName, gebProvider)
+            const contracts = new MultiCollateralContractApis(
+                networkName,
+                gebProvider
+            )
 
             const weth = new Weth9(
                 await contracts.joinETH_A.collateral(),

@@ -8,6 +8,12 @@ import { BigNumberish } from '@ethersproject/bignumber'
 import { BigNumber } from '@ethersproject/bignumber'
 
 export class GebProxyActions extends BaseContractAPI {
+    /**
+     * Allow/disallow a usr address to quit to the sender handler
+     * @param manager address - Safe Manager
+     * @param usr address - usr address uint ok - 1 for allowed
+     */
+
     allowHandler(
         manager: string,
         usr: string,
@@ -19,6 +25,13 @@ export class GebProxyActions extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [manager, usr, ok])
     }
+
+    /**
+     * Allow/disallow a usr address to manage the safe
+     * @param manager address - Safe Manager
+     * @param safe uint - Safe Id
+     * @param usr address - usr address uint ok - 1 for allowed
+     */
 
     allowSAFE(
         manager: string,
@@ -32,6 +45,12 @@ export class GebProxyActions extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [manager, safe, usr, ok])
     }
+
+    /**
+     * Approves an address to modify the Safe
+     * @param safeEngine address
+     * @param usr address - Address allowed to modify Safe
+     */
 
     approveSAFEModification(
         safeEngine: string,
@@ -56,6 +75,12 @@ export class GebProxyActions extends BaseContractAPI {
         return this.getTransactionRequest(abi, [apt, safeHandler, wad])
     }
 
+    /**
+     * Denies an address to modify the Safe
+     * @param safeEngine address
+     * @param usr address - Address disallowed to modify Safe
+     */
+
     denySAFEModification(safeEngine: string, usr: string): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -63,6 +88,13 @@ export class GebProxyActions extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [safeEngine, usr])
     }
+
+    /**
+     * Import a position from src handler to the handler owned by safe
+     * @param manager address - Safe Manager
+     * @param safe uint - Safe Id
+     * @param src - source handler
+     */
 
     enterSystem(
         manager: string,
@@ -75,6 +107,12 @@ export class GebProxyActions extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [manager, src, safe])
     }
+
+    /**
+     * Joins the system with the full msg.value
+     * @param apt address - Address of the adapter
+     * @param safe uint - Safe Id
+     */
 
     ethJoin_join__AddressAddress(
         ethValue: BigNumberish,
@@ -92,6 +130,13 @@ export class GebProxyActions extends BaseContractAPI {
         )
     }
 
+    /**
+     * Joins the system with the a specified value
+     * @param apt address - Address of the adapter
+     * @param safe uint - Safe Id
+     * @param value uint - Value to join
+     */
+
     ethJoin_join__AddressAddressUint256(
         ethValue: BigNumberish,
         apt: string,
@@ -108,6 +153,14 @@ export class GebProxyActions extends BaseContractAPI {
             BigNumber.from(ethValue)
         )
     }
+
+    /**
+     * Exits ETH (wad) from balance available in the handler
+     * @param ethJoin address
+     * @param manager address - Safe Manager
+     * @param safe uint - Safe Id
+     * @param wad uint - Amount
+     */
 
     exitETH(
         manager: string,
@@ -140,6 +193,14 @@ export class GebProxyActions extends BaseContractAPI {
         ])
     }
 
+    /**
+     * Free ETH (wad) from safe and sends it to msg.sender
+     * @param ethJoin address
+     * @param manager address - Safe Manager
+     * @param safe uint - Safe Id
+     * @param wad uint - Amount
+     */
+
     freeETH(
         manager: string,
         ethJoin: string,
@@ -170,6 +231,15 @@ export class GebProxyActions extends BaseContractAPI {
             amt,
         ])
     }
+
+    /**
+     * Generates debt and sends COIN amount to msg.sender
+     * @param coinJoin address
+     * @param manager address
+     * @param safe uint - Safe Id
+     * @param taxCollector address
+     * @param wad uint - Amount
+     */
 
     generateDebt(
         manager: string,
@@ -215,6 +285,13 @@ export class GebProxyActions extends BaseContractAPI {
         ])
     }
 
+    /**
+     * Lock ETH (msg.value) as collateral in safe
+     * @param ethJoin address
+     * @param manager address - Safe Manager
+     * @param safe uint - Safe Id
+     */
+
     lockETH(
         ethValue: BigNumberish,
         manager: string,
@@ -231,6 +308,16 @@ export class GebProxyActions extends BaseContractAPI {
             BigNumber.from(ethValue)
         )
     }
+
+    /**
+     * Locks Eth, generates debt and sends COIN amount (deltaWad) to msg.sender
+     * @param coinJoin address
+     * @param deltaWad uint - Amount
+     * @param ethJoin address
+     * @param manager address
+     * @param safe uint - Safe Id
+     * @param taxCollector address
+     */
 
     lockETHAndGenerateDebt(
         ethValue: BigNumberish,
@@ -336,6 +423,14 @@ export class GebProxyActions extends BaseContractAPI {
         return this.getTransactionRequest(abi, [collateralJoin])
     }
 
+    /**
+     * Modify a SAFE's collateralization ratio while keeping the generated COIN or collateral freed in the SAFE handler address.
+     * @param deltaCollateral - int
+     * @param deltaDebt - int
+     * @param manager address - Safe Manager
+     * @param safe uint - Safe Id
+     */
+
     modifySAFECollateralization(
         manager: string,
         safe: BigNumberish,
@@ -354,6 +449,13 @@ export class GebProxyActions extends BaseContractAPI {
         ])
     }
 
+    /**
+     * Move a position from safeSrc handler to the safeDst handler
+     * @param manager address - Safe Manager
+     * @param safeDst uint - Destination Safe Id
+     * @param safeSrc uint - Source Safe Id
+     */
+
     moveSAFE(
         manager: string,
         safeSrc: BigNumberish,
@@ -365,6 +467,15 @@ export class GebProxyActions extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [manager, safeSrc, safeDst])
     }
+
+    /**
+     * Opens Safe, locks Eth, generates debt and sends COIN amount (deltaWad) to msg.sender
+     * @param coinJoin address
+     * @param deltaWad uint - Amount
+     * @param ethJoin address
+     * @param manager address
+     * @param taxCollector address
+     */
 
     openLockETHAndGenerateDebt(
         ethValue: BigNumberish,
@@ -532,6 +643,13 @@ export class GebProxyActions extends BaseContractAPI {
         ])
     }
 
+    /**
+     * Opens a brand new Safe
+     * @param collateralType bytes32 - collateral type
+     * @param manager address - Safe Manager
+     * @param usr address - Owner of the safe
+     */
+
     openSAFE(
         manager: string,
         collateralType: BytesLike,
@@ -561,6 +679,13 @@ export class GebProxyActions extends BaseContractAPI {
             saviour,
         ])
     }
+
+    /**
+     * Quit the system, migrating the safe (lockedCollateral, generatedDebt) to a different dst handler
+     * @param dst - destination handler
+     * @param manager address - Safe Manager
+     * @param safe uint - Safe Id
+     */
 
     quitSystem(
         manager: string,
@@ -626,6 +751,14 @@ export class GebProxyActions extends BaseContractAPI {
         ])
     }
 
+    /**
+     * Repays debt
+     * @param coinJoin address
+     * @param manager address
+     * @param safe uint - Safe Id
+     * @param wad uint - Amount
+     */
+
     repayDebt(
         manager: string,
         coinJoin: string,
@@ -638,6 +771,16 @@ export class GebProxyActions extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [manager, coinJoin, safe, wad])
     }
+
+    /**
+     * Repays debt and frees ETH (sends it to msg.sender)
+     * @param coinJoin address
+     * @param collateralWad uint - Amount of collateral to free
+     * @param deltaWad uint - Amount of debt to repay
+     * @param ethJoin address
+     * @param manager address
+     * @param safe uint - Safe Id
+     */
 
     repayDebtAndFreeETH(
         manager: string,
@@ -769,6 +912,13 @@ export class GebProxyActions extends BaseContractAPI {
         return this.getTransactionRequest(abi, [apt, safe, amt, transferFrom])
     }
 
+    /**
+     * ERC20 transfer
+     * @param amt address - Amount to transfer
+     * @param collateral address - address of ERC20 collateral
+     * @param dst address - Transfer destination
+     */
+
     transfer(
         collateral: string,
         dst: string,
@@ -780,6 +930,13 @@ export class GebProxyActions extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [collateral, dst, amt])
     }
+
+    /**
+     * Transfer wad amount of safe collateral from the safe address to a dst address.
+     * @param dst address - destination address uint wad - amount
+     * @param manager address - Safe Manager
+     * @param safe uint - Safe Id
+     */
 
     transferCollateral(
         manager: string,
@@ -794,6 +951,13 @@ export class GebProxyActions extends BaseContractAPI {
         return this.getTransactionRequest(abi, [manager, safe, dst, wad])
     }
 
+    /**
+     * Transfer rad amount of COIN from the safe address to a dst address.
+     * @param dst address - destination address uint rad - amount
+     * @param manager address - Safe Manager
+     * @param safe uint - Safe Id
+     */
+
     transferInternalCoins(
         manager: string,
         safe: BigNumberish,
@@ -807,6 +971,13 @@ export class GebProxyActions extends BaseContractAPI {
         return this.getTransactionRequest(abi, [manager, safe, dst, rad])
     }
 
+    /**
+     * Transfer the ownership of a proxy owned Safe
+     * @param manager address - Safe Manager
+     * @param safe uint - Safe Id
+     * @param usr address - Owner of the safe
+     */
+
     transferSAFEOwnership(
         manager: string,
         safe: BigNumberish,
@@ -818,6 +989,14 @@ export class GebProxyActions extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [manager, safe, usr])
     }
+
+    /**
+     * Transfer the ownership to a new proxy owned by a different address
+     * @param dst address - Owner of the new proxy
+     * @param manager address - Safe Manager
+     * @param proxyRegistry address - Safe Manager
+     * @param safe uint - Safe Id
+     */
 
     transferSAFEOwnershipToProxy(
         proxyRegistry: string,

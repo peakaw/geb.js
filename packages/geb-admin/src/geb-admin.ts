@@ -24,8 +24,8 @@ import { getRequireString, NULL_ADDRESS } from 'mcgeb.js/lib/utils'
  * import { ethers } from 'ethers'
  * import { GebAdmin } from "@money-god/geb-admin"
  *
- *  const provider = new ethers.providers.JsonRpcProvider('http://kovan.infura.io/<API KEY>')
- *  const gebAdmin = new GebAdmin('kovan', provider)
+ *  const provider = new ethers.providers.JsonRpcProvider('http://goerli.infura.io/<API KEY>')
+ *  const gebAdmin = new GebAdmin('goerli', provider)
  * ```
  */
 export class GebAdmin extends Geb {
@@ -53,7 +53,7 @@ export class GebAdmin extends Geb {
     public contractsAdmin: AdminApis
 
     /**
-     * @param  {GebDeployment} network Either `'kovan'`, `'mainnet'` or an actual list of contract addresses.
+     * @param  {GebDeployment} network Either `'goerli'`, `'mainnet'` or an actual list of contract addresses.
      * @param  {GebProviderInterface|ethers.providers.Provider} provider Either a Ethers.js provider or a GEB provider. Support for Web3.js will be added in the future.
      */
     constructor(

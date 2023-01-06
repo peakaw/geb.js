@@ -21,6 +21,11 @@ export class LiquidationEngine extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
+    /**
+     * Add auth to an account
+     * @param account Account to add auth to
+     */
+
     addAuthorization(account: string): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -99,6 +104,11 @@ export class LiquidationEngine extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [bytes], multicall)
     }
 
+    /**
+     * Authed function to add contracts that can save SAFEs from liquidation
+     * @param saviour SAFE saviour contract to be whitelisted*
+     */
+
     connectSAFESaviour(saviour: string): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -131,6 +141,10 @@ export class LiquidationEngine extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
+    /**
+     * Disable this contract (normally called by GlobalSettlement)
+     */
+
     disableContract(): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -138,6 +152,11 @@ export class LiquidationEngine extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [])
     }
+
+    /**
+     * Governance used function to remove contracts that can save SAFEs from liquidation
+     * @param saviour SAFE saviour contract to be removed*
+     */
 
     disconnectSAFESaviour(saviour: string): TransactionRequest {
         // prettier-ignore
@@ -147,26 +166,11 @@ export class LiquidationEngine extends BaseContractAPI {
         return this.getTransactionRequest(abi, [saviour])
     }
 
-    getLimitAdjustedDebtToCover(
-        collateralType: BytesLike,
-        safe: string
-    ): Promise<BigNumber>
-    getLimitAdjustedDebtToCover(
-        collateralType: BytesLike,
-        safe: string,
-        multicall: true
-    ): MulticallRequest<BigNumber>
-    getLimitAdjustedDebtToCover(
-        collateralType: BytesLike,
-        safe: string,
-        multicall?: true
-    ): Promise<BigNumber> | MulticallRequest<BigNumber> {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[{"internalType":"bytes32","name":"collateralType","type":"bytes32"},{"internalType":"address","name":"safe","type":"address"}],"name":"getLimitAdjustedDebtToCover","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
-
-        return this.ethCallOrMulticall(abi, [collateralType, safe], multicall)
-    }
+    /**
+     * Liquidate a SAFE
+     * @param collateralType The SAFE's collateral type
+     * @param safe The SAFE's address
+     */
 
     liquidateSAFE(collateralType: BytesLike, safe: string): TransactionRequest {
         // prettier-ignore
@@ -175,6 +179,13 @@ export class LiquidationEngine extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [collateralType, safe])
     }
+
+    /**
+     * Modify collateral auction integration
+     * @param collateralType The collateral type we change parameters for
+     * @param data New address for the integration contract
+     * @param parameter The name of the integration modified
+     */
 
     modifyParameters__Bytes32Bytes32Address(
         collateralType: BytesLike,
@@ -192,6 +203,12 @@ export class LiquidationEngine extends BaseContractAPI {
         ])
     }
 
+    /**
+     * Modify contract integrations
+     * @param data New address for the parameter
+     * @param parameter The name of the parameter modified
+     */
+
     modifyParameters__Bytes32Address(
         parameter: BytesLike,
         data: string
@@ -202,6 +219,13 @@ export class LiquidationEngine extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [parameter, data])
     }
+
+    /**
+     * Modify liquidation params
+     * @param collateralType The collateral type we change parameters for
+     * @param data New value for the parameter
+     * @param parameter The name of the parameter modified
+     */
 
     modifyParameters__Bytes32Bytes32Uint256(
         collateralType: BytesLike,
@@ -260,6 +284,13 @@ export class LiquidationEngine extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
+    /**
+     * Choose a saviour contract for your SAFE
+     * @param collateralType The SAFE's collateral type
+     * @param safe The SAFE's address
+     * @param saviour The chosen saviour
+     */
+
     protectSAFE(
         collateralType: BytesLike,
         safe: string,
@@ -271,6 +302,11 @@ export class LiquidationEngine extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [collateralType, safe, saviour])
     }
+
+    /**
+     * Remove auth from an account
+     * @param account Account to remove auth from
+     */
 
     removeAuthorization(account: string): TransactionRequest {
         // prettier-ignore

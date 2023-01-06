@@ -8,6 +8,11 @@ import { BigNumberish } from '@ethersproject/bignumber'
 import { BigNumber } from '@ethersproject/bignumber'
 
 export class EthJoin extends BaseContractAPI {
+    /**
+     * Add auth to an account
+     * @param account Account to add auth to
+     */
+
     addAuthorization(account: string): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -68,6 +73,10 @@ export class EthJoin extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
+    /**
+     * Disable this contract
+     */
+
     disableContract(): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -76,6 +85,11 @@ export class EthJoin extends BaseContractAPI {
         return this.getTransactionRequest(abi, [])
     }
 
+    /**
+     * Exit ETH from the system
+     * @param account Account that will receive the ETH representation inside the system*
+     */
+
     exit(account: string, wad: BigNumberish): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -83,6 +97,11 @@ export class EthJoin extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [account, wad])
     }
+
+    /**
+     * Join ETH in the system
+     * @param account Account that will receive the ETH representation inside the system*
+     */
 
     join(ethValue: BigNumberish, account: string): TransactionRequest {
         // prettier-ignore
@@ -95,6 +114,11 @@ export class EthJoin extends BaseContractAPI {
             BigNumber.from(ethValue)
         )
     }
+
+    /**
+     * Remove auth from an account
+     * @param account Account to remove auth from
+     */
 
     removeAuthorization(account: string): TransactionRequest {
         // prettier-ignore

@@ -8,7 +8,7 @@ import { BytesLike } from '@ethersproject/bytes'
 import { BigNumberish } from '@ethersproject/bignumber'
 import { BigNumber } from '@ethersproject/bignumber'
 
-export class PostSettlementSurplusAuctionHouse extends BaseContractAPI {
+export class PreSettlementSurplusAuctionHouse extends BaseContractAPI {
     AUCTION_HOUSE_TYPE(): Promise<string>
     AUCTION_HOUSE_TYPE(multicall: true): MulticallRequest<string>
     AUCTION_HOUSE_TYPE(
@@ -128,6 +128,30 @@ export class PostSettlementSurplusAuctionHouse extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [uinteger], multicall)
     }
 
+    contractEnabled(): Promise<BigNumber>
+    contractEnabled(multicall: true): MulticallRequest<BigNumber>
+    contractEnabled(
+        multicall?: true
+    ): Promise<BigNumber> | MulticallRequest<BigNumber> {
+        // prettier-ignore
+        // @ts-ignore
+        const abi = {"inputs":[],"name":"contractEnabled","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
+
+        return this.ethCallOrMulticall(abi, [], multicall)
+    }
+
+    /**
+     * Disable the auction house (usually called by AccountingEngine)*
+     */
+
+    disableContract(): TransactionRequest {
+        // prettier-ignore
+        // @ts-ignore
+        const abi = {"inputs":[],"name":"disableContract","outputs":[],"stateMutability":"nonpayable","type":"function"}
+
+        return this.getTransactionRequest(abi, [])
+    }
+
     /**
      * Submit a higher protocol token bid for the same amount of system coins
      * @param amountToBuy Amount of system coins to buy (wad)
@@ -240,6 +264,19 @@ export class PostSettlementSurplusAuctionHouse extends BaseContractAPI {
         const abi = {"inputs":[{"internalType":"uint256","name":"amountToSell","type":"uint256"},{"internalType":"uint256","name":"initialBid","type":"uint256"}],"name":"startAuction","outputs":[{"internalType":"uint256","name":"id","type":"uint256"}],"stateMutability":"nonpayable","type":"function"}
 
         return this.getTransactionRequest(abi, [amountToSell, initialBid])
+    }
+
+    /**
+     * Terminate an auction prematurely.
+     * @param id ID of the auction to settle/terminate
+     */
+
+    terminateAuctionPrematurely(id: BigNumberish): TransactionRequest {
+        // prettier-ignore
+        // @ts-ignore
+        const abi = {"inputs":[{"internalType":"uint256","name":"id","type":"uint256"}],"name":"terminateAuctionPrematurely","outputs":[],"stateMutability":"nonpayable","type":"function"}
+
+        return this.getTransactionRequest(abi, [id])
     }
 
     totalAuctionLength(): Promise<number>

@@ -8,7 +8,7 @@ import {
     utils,
     contracts,
     MC_LOCAL_ADDRESSES,
-    KOVAN_ADDRESSES,
+    MC_GOERLI_ADDRESSES,
     MAINNET_ADDRESSES,
     // Type & Interfaces
     MultiCollateralContractList,
@@ -29,7 +29,7 @@ export {
     utils,
     contracts,
     MC_LOCAL_ADDRESSES,
-    KOVAN_ADDRESSES,
+    MC_GOERLI_ADDRESSES,
     MAINNET_ADDRESSES,
     // Type & Interfaces
     MultiCollateralContractList,

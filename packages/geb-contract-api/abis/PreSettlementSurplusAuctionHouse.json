@@ -9,13 +9,8 @@
                 },
                 {
                     "internalType": "address",
-                    "name": "liquidationEngine_",
+                    "name": "protocolToken_",
                     "type": "address"
-                },
-                {
-                    "internalType": "bytes32",
-                    "name": "collateralType_",
-                    "type": "bytes32"
                 }
             ],
             "stateMutability": "nonpayable",
@@ -36,6 +31,12 @@
         },
         {
             "anonymous": false,
+            "inputs": [],
+            "name": "DisableContract",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
             "inputs": [
                 {
                     "indexed": false,
@@ -45,53 +46,46 @@
                 },
                 {
                     "indexed": false,
-                    "internalType": "uint256",
-                    "name": "wad",
-                    "type": "uint256"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "boughtCollateral",
-                    "type": "uint256"
-                }
-            ],
-            "name": "BuyCollateral",
-            "type": "event"
-        },
-        {
-            "anonymous": false,
-            "inputs": [
-                {
-                    "indexed": false,
-                    "internalType": "bytes32",
-                    "name": "parameter",
-                    "type": "bytes32"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "data",
-                    "type": "uint256"
-                }
-            ],
-            "name": "ModifyParameters",
-            "type": "event"
-        },
-        {
-            "anonymous": false,
-            "inputs": [
-                {
-                    "indexed": false,
-                    "internalType": "bytes32",
-                    "name": "parameter",
-                    "type": "bytes32"
-                },
-                {
-                    "indexed": false,
                     "internalType": "address",
-                    "name": "data",
+                    "name": "highBidder",
                     "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "amountToBuy",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "bid",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "bidExpiry",
+                    "type": "uint256"
+                }
+            ],
+            "name": "IncreaseBidSize",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "bytes32",
+                    "name": "parameter",
+                    "type": "bytes32"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "data",
+                    "type": "uint256"
                 }
             ],
             "name": "ModifyParameters",
@@ -122,7 +116,20 @@
                 {
                     "indexed": false,
                     "internalType": "uint256",
-                    "name": "leftoverCollateral",
+                    "name": "auctionDeadline",
+                    "type": "uint256"
+                }
+            ],
+            "name": "RestartAuction",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "id",
                     "type": "uint256"
                 }
             ],
@@ -159,24 +166,6 @@
                 {
                     "indexed": false,
                     "internalType": "uint256",
-                    "name": "amountToRaise",
-                    "type": "uint256"
-                },
-                {
-                    "indexed": true,
-                    "internalType": "address",
-                    "name": "forgoneCollateralReceiver",
-                    "type": "address"
-                },
-                {
-                    "indexed": true,
-                    "internalType": "address",
-                    "name": "auctionIncomeRecipient",
-                    "type": "address"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
                     "name": "auctionDeadline",
                     "type": "uint256"
                 }
@@ -201,8 +190,14 @@
                 },
                 {
                     "indexed": false,
+                    "internalType": "address",
+                    "name": "highBidder",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
                     "internalType": "uint256",
-                    "name": "collateralAmount",
+                    "name": "bidAmount",
                     "type": "uint256"
                 }
             ],
@@ -212,15 +207,6 @@
         {
             "inputs": [],
             "name": "AUCTION_HOUSE_TYPE",
-            "outputs": [
-                { "internalType": "bytes32", "name": "", "type": "bytes32" }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "AUCTION_TYPE",
             "outputs": [
                 { "internalType": "bytes32", "name": "", "type": "bytes32" }
             ],
@@ -238,17 +224,6 @@
             "name": "addAuthorization",
             "outputs": [],
             "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                { "internalType": "uint256", "name": "id", "type": "uint256" }
-            ],
-            "name": "amountToRaise",
-            "outputs": [
-                { "internalType": "uint256", "name": "", "type": "uint256" }
-            ],
-            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -272,10 +247,17 @@
             "type": "function"
         },
         {
-            "inputs": [
-                { "internalType": "uint256", "name": "id", "type": "uint256" }
+            "inputs": [],
+            "name": "bidDuration",
+            "outputs": [
+                { "internalType": "uint48", "name": "", "type": "uint48" }
             ],
-            "name": "bidAmount",
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "bidIncrease",
             "outputs": [
                 { "internalType": "uint256", "name": "", "type": "uint256" }
             ],
@@ -290,12 +272,7 @@
             "outputs": [
                 {
                     "internalType": "uint256",
-                    "name": "raisedAmount",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "soldAmount",
+                    "name": "bidAmount",
                     "type": "uint256"
                 },
                 {
@@ -304,196 +281,51 @@
                     "type": "uint256"
                 },
                 {
-                    "internalType": "uint256",
-                    "name": "amountToRaise",
-                    "type": "uint256"
+                    "internalType": "address",
+                    "name": "highBidder",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint48",
+                    "name": "bidExpiry",
+                    "type": "uint48"
                 },
                 {
                     "internalType": "uint48",
                     "name": "auctionDeadline",
                     "type": "uint48"
-                },
-                {
-                    "internalType": "address",
-                    "name": "forgoneCollateralReceiver",
-                    "type": "address"
-                },
-                {
-                    "internalType": "address",
-                    "name": "auctionIncomeRecipient",
-                    "type": "address"
                 }
             ],
             "stateMutability": "view",
             "type": "function"
         },
         {
-            "inputs": [
-                { "internalType": "uint256", "name": "id", "type": "uint256" },
-                { "internalType": "uint256", "name": "wad", "type": "uint256" }
+            "inputs": [],
+            "name": "contractEnabled",
+            "outputs": [
+                { "internalType": "uint256", "name": "", "type": "uint256" }
             ],
-            "name": "buyCollateral",
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "disableContract",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
         },
         {
-            "inputs": [],
-            "name": "collateralMedian",
-            "outputs": [
-                {
-                    "internalType": "contract OracleLike",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "collateralOSM",
-            "outputs": [
-                {
-                    "internalType": "contract OracleLike",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "collateralType",
-            "outputs": [
-                { "internalType": "bytes32", "name": "", "type": "bytes32" }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "discount",
-            "outputs": [
-                { "internalType": "uint256", "name": "", "type": "uint256" }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                { "internalType": "uint256", "name": "id", "type": "uint256" }
-            ],
-            "name": "forgoneCollateralReceiver",
-            "outputs": [
-                { "internalType": "address", "name": "", "type": "address" }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
             "inputs": [
                 { "internalType": "uint256", "name": "id", "type": "uint256" },
-                { "internalType": "uint256", "name": "wad", "type": "uint256" }
-            ],
-            "name": "getCollateralBought",
-            "outputs": [
-                { "internalType": "uint256", "name": "", "type": "uint256" },
-                { "internalType": "uint256", "name": "", "type": "uint256" }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
                 {
                     "internalType": "uint256",
-                    "name": "collateralOSMPriceFeedValue",
+                    "name": "amountToBuy",
                     "type": "uint256"
                 },
-                {
-                    "internalType": "uint256",
-                    "name": "collateralMedianPriceFeedValue",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "systemCoinPriceFeedValue",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "customDiscount",
-                    "type": "uint256"
-                }
+                { "internalType": "uint256", "name": "bid", "type": "uint256" }
             ],
-            "name": "getDiscountedCollateralPrice",
-            "outputs": [
-                { "internalType": "uint256", "name": "", "type": "uint256" }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "liquidationEngine",
-            "outputs": [
-                {
-                    "internalType": "contract LiquidationEngineLike",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "lowerCollateralMedianDeviation",
-            "outputs": [
-                { "internalType": "uint256", "name": "", "type": "uint256" }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "lowerSystemCoinMedianDeviation",
-            "outputs": [
-                { "internalType": "uint256", "name": "", "type": "uint256" }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "minSystemCoinMedianDeviation",
-            "outputs": [
-                { "internalType": "uint256", "name": "", "type": "uint256" }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "minimumBid",
-            "outputs": [
-                { "internalType": "uint256", "name": "", "type": "uint256" }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "bytes32",
-                    "name": "parameter",
-                    "type": "bytes32"
-                },
-                { "internalType": "address", "name": "data", "type": "address" }
-            ],
-            "name": "modifyParameters",
+            "name": "increaseBidSize",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
@@ -514,24 +346,13 @@
         },
         {
             "inputs": [],
-            "name": "oracleRelayer",
+            "name": "protocolToken",
             "outputs": [
                 {
-                    "internalType": "contract OracleRelayerLike",
+                    "internalType": "contract TokenLike",
                     "name": "",
                     "type": "address"
                 }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                { "internalType": "uint256", "name": "id", "type": "uint256" }
-            ],
-            "name": "remainingAmountToSell",
-            "outputs": [
-                { "internalType": "uint256", "name": "", "type": "uint256" }
             ],
             "stateMutability": "view",
             "type": "function"
@@ -545,6 +366,15 @@
                 }
             ],
             "name": "removeAuthorization",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                { "internalType": "uint256", "name": "id", "type": "uint256" }
+            ],
+            "name": "restartAuction",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
@@ -574,21 +404,6 @@
         {
             "inputs": [
                 {
-                    "internalType": "address",
-                    "name": "forgoneCollateralReceiver",
-                    "type": "address"
-                },
-                {
-                    "internalType": "address",
-                    "name": "auctionIncomeRecipient",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "amountToRaise",
-                    "type": "uint256"
-                },
-                {
                     "internalType": "uint256",
                     "name": "amountToSell",
                     "type": "uint256"
@@ -604,19 +419,6 @@
                 { "internalType": "uint256", "name": "id", "type": "uint256" }
             ],
             "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "systemCoinOracle",
-            "outputs": [
-                {
-                    "internalType": "contract OracleLike",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -636,24 +438,6 @@
             ],
             "stateMutability": "view",
             "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "upperCollateralMedianDeviation",
-            "outputs": [
-                { "internalType": "uint256", "name": "", "type": "uint256" }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "upperSystemCoinMedianDeviation",
-            "outputs": [
-                { "internalType": "uint256", "name": "", "type": "uint256" }
-            ],
-            "stateMutability": "view",
-            "type": "function"
         }
     ],
     "devdoc": {
@@ -661,22 +445,11 @@
             "addAuthorization(address)": {
                 "params": { "account": "Account to add auth to" }
             },
-            "buyCollateral(uint256,uint256)": {
+            "increaseBidSize(uint256,uint256,uint256)": {
                 "params": {
-                    "id": "ID of the auction to buy collateral from",
-                    "wad": "New bid submitted"
-                }
-            },
-            "getCollateralBought(uint256,uint256)": {
-                "params": {
-                    "id": "ID of the auction to buy collateral from",
-                    "wad": "New bid submitted"
-                }
-            },
-            "modifyParameters(bytes32,address)": {
-                "params": {
-                    "data": "New address for the oracle contract",
-                    "parameter": "The name of the contract address being updated"
+                    "amountToBuy": "Amount of system coins to buy (wad)",
+                    "bid": "New bid submitted (rad)",
+                    "id": "ID of the auction you want to submit the bid for"
                 }
             },
             "modifyParameters(bytes32,uint256)": {
@@ -688,34 +461,31 @@
             "removeAuthorization(address)": {
                 "params": { "account": "Account to remove auth from" }
             },
+            "restartAuction(uint256)": {
+                "params": { "id": "ID of the auction to restart" }
+            },
             "settleAuction(uint256)": {
                 "params": { "id": "ID of the auction to settle" }
             },
-            "startAuction(address,address,uint256,uint256,uint256)": {
+            "startAuction(uint256,uint256)": {
                 "params": {
-                    "amountToRaise": "Total amount of coins to raise (rad)",
-                    "amountToSell": "Total amount of collateral available to sell (wad)",
-                    "auctionIncomeRecipient": "Who receives the amount raised in the auction",
-                    "forgoneCollateralReceiver": "Who receives leftover collateral that is not auctioned",
-                    "initialBid": "Unused"
+                    "amountToSell": "Total amount of system coins to sell (wad)",
+                    "initialBid": "Initial protocol token bid (rad)"
                 }
             },
             "terminateAuctionPrematurely(uint256)": {
-                "params": { "id": "ID of the auction to settle" }
+                "params": { "id": "ID of the auction to settle/terminate" }
             }
         }
     },
     "userdoc": {
         "methods": {
             "addAuthorization(address)": { "notice": "Add auth to an account" },
-            "buyCollateral(uint256,uint256)": {
-                "notice": "Buy collateral from an auction at a fixed discount"
+            "disableContract()": {
+                "notice": "Disable the auction house (usually called by AccountingEngine)*"
             },
-            "getCollateralBought(uint256,uint256)": {
-                "notice": "Calculate how much collateral someone would buy from an auction"
-            },
-            "modifyParameters(bytes32,address)": {
-                "notice": "Modify oracle related integrations"
+            "increaseBidSize(uint256,uint256,uint256)": {
+                "notice": "Submit a higher protocol token bid for the same amount of system coins"
             },
             "modifyParameters(bytes32,uint256)": {
                 "notice": "Modify auction parameters"
@@ -723,14 +493,16 @@
             "removeAuthorization(address)": {
                 "notice": "Remove auth from an account"
             },
+            "restartAuction(uint256)": {
+                "notice": "Restart an auction if no bids were submitted for it"
+            },
             "settleAuction(uint256)": { "notice": "Settle/finish an auction" },
-            "startAuction(address,address,uint256,uint256,uint256)": {
-                "notice": "Start a new collateral auction"
+            "startAuction(uint256,uint256)": {
+                "notice": "Start a new surplus auction"
             },
             "terminateAuctionPrematurely(uint256)": {
-                "notice": "Terminate an auction prematurely. Usually called by Global Settlement."
+                "notice": "Terminate an auction prematurely."
             }
-        },
-        "notice": "FixedDiscountCollateralAuctionHouse.sol"
+        }
     }
 }

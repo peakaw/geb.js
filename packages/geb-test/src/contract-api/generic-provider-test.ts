@@ -18,7 +18,7 @@ import { utils } from 'mcgeb.js'
 export const testsWithGenericGebProvider = (
     gebProvider: GebProviderInterface,
     addresses: MultiCollateralContractList | ContractList,
-    networkName: 'kovan' | 'mainnet' | 'local'
+    networkName: 'mainnet' | 'local'
 ) => {
     describe(`Generic provider test (ethers or web3) Network: ${networkName}`, async () => {
         let safeEngine: SafeEngine
@@ -166,7 +166,7 @@ export const testsWithGenericGebProvider = (
 export const testsMcWithGenericGebProvider = (
     gebProvider: GebProviderInterface,
     addresses: MultiCollateralContractList | ContractList,
-    networkName: 'kovan' | 'mainnet' | 'local'
+    networkName: 'mainnet' | 'local' | 'goerli'
 ) => {
     describe(`Generic provider test (ethers or web3) Network: ${networkName}`, async () => {
         let safeEngine: SafeEngine

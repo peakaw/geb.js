@@ -9,6 +9,11 @@ import { BigNumberish } from '@ethersproject/bignumber'
 import { BigNumber } from '@ethersproject/bignumber'
 
 export class SafeEngine extends BaseContractAPI {
+    /**
+     * Add auth to an account
+     * @param account Account to add auth to
+     */
+
     addAuthorization(account: string): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -16,6 +21,11 @@ export class SafeEngine extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [account])
     }
+
+    /**
+     * Allow an address to modify your SAFE
+     * @param account Account to give SAFE permissions to
+     */
 
     approveSAFEModification(account: string): TransactionRequest {
         // prettier-ignore
@@ -41,6 +51,9 @@ export class SafeEngine extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [address], multicall)
     }
 
+    /**
+     * Checks whether msg.sender has the right to modify a SAFE*
+     */
     canModifySAFE(safe: string, account: string): Promise<boolean>
     canModifySAFE(
         safe: string,
@@ -120,6 +133,16 @@ export class SafeEngine extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [bytes], multicall)
     }
 
+    /**
+     * Normally used by the LiquidationEngine in order to confiscate collateral and debt from a SAFE and give them to someone else
+     * @param collateralCounterparty Who we take/give collateral to
+     * @param collateralType Collateral type the SAFE has locked inside
+     * @param debtCounterparty Who we take/give debt to
+     * @param deltaCollateral Amount of collateral taken/added into the SAFE (wad)
+     * @param deltaDebt Amount of collateral taken/added into the SAFE (wad)
+     * @param safe Target SAFE
+     */
+
     confiscateSAFECollateralAndDebt(
         collateralType: BytesLike,
         safe: string,
@@ -154,6 +177,13 @@ export class SafeEngine extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
+    /**
+     * Usually called by CoinSavingsAccount in order to create unbacked debt
+     * @param coinDestination Usually CoinSavingsAccount who passes the new coins to depositors
+     * @param debtDestination Usually AccountingEngine that can settle dent with surplus
+     * @param rad Amount of debt to create
+     */
+
     createUnbackedDebt(
         debtDestination: string,
         coinDestination: string,
@@ -183,6 +213,11 @@ export class SafeEngine extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [address], multicall)
     }
 
+    /**
+     * Deny an address the rights to modify your SAFE
+     * @param account Account to give SAFE permissions to
+     */
+
     denySAFEModification(account: string): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -190,6 +225,10 @@ export class SafeEngine extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [account])
     }
+
+    /**
+     * Disable this contract (normally called by GlobalSettlement)
+     */
 
     disableContract(): TransactionRequest {
         // prettier-ignore
@@ -235,6 +274,11 @@ export class SafeEngine extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
+    /**
+     * Creates a brand new collateral type
+     * @param collateralType Collateral type name (e.g ETH-A, TBTC-B)
+     */
+
     initializeCollateralType(collateralType: BytesLike): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -242,6 +286,13 @@ export class SafeEngine extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [collateralType])
     }
+
+    /**
+     * Join/exit collateral into and and out of the system
+     * @param account Account that gets credited/debited
+     * @param collateralType Collateral type we join/exit
+     * @param wad Amount of collateral
+     */
 
     modifyCollateralBalance(
         collateralType: BytesLike,
@@ -254,6 +305,13 @@ export class SafeEngine extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [collateralType, account, wad])
     }
+
+    /**
+     * Modify collateral specific params
+     * @param collateralType Collateral type we modify params for
+     * @param data New value for the parameter
+     * @param parameter The name of the parameter modified
+     */
 
     modifyParameters__Bytes32Bytes32Uint256(
         collateralType: BytesLike,
@@ -271,6 +329,12 @@ export class SafeEngine extends BaseContractAPI {
         ])
     }
 
+    /**
+     * Modify general uint params
+     * @param data New value for the parameter
+     * @param parameter The name of the parameter modified
+     */
+
     modifyParameters__Bytes32Uint256(
         parameter: BytesLike,
         data: BigNumberish
@@ -281,6 +345,16 @@ export class SafeEngine extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [parameter, data])
     }
+
+    /**
+     * Add/remove collateral or put back/generate more debt in a SAFE
+     * @param collateralSource Account we take collateral from/put collateral into
+     * @param collateralType Type of collateral to withdraw/deposit in and from the SAFE
+     * @param debtDestination Account from which we credit/debit coins and debt
+     * @param deltaCollateral Amount of collateral added/extract from the SAFE (wad)
+     * @param deltaDebt Amount of debt to generate/repay (wad)
+     * @param safe Target SAFE
+     */
 
     modifySAFECollateralization(
         collateralType: BytesLike,
@@ -304,24 +378,17 @@ export class SafeEngine extends BaseContractAPI {
         ])
     }
 
+    /**
+     * Remove auth from an account
+     * @param account Account to remove auth from
+     */
+
     removeAuthorization(account: string): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
         const abi = {"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"removeAuthorization","outputs":[],"stateMutability":"nonpayable","type":"function"}
 
         return this.getTransactionRequest(abi, [account])
-    }
-
-    safeDebtCeiling(): Promise<BigNumber>
-    safeDebtCeiling(multicall: true): MulticallRequest<BigNumber>
-    safeDebtCeiling(
-        multicall?: true
-    ): Promise<BigNumber> | MulticallRequest<BigNumber> {
-        // prettier-ignore
-        // @ts-ignore
-        const abi = {"inputs":[],"name":"safeDebtCeiling","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
-
-        return this.ethCallOrMulticall(abi, [], multicall)
     }
 
     safeRights(address1: string, address2: string): Promise<BigNumber>
@@ -377,6 +444,11 @@ export class SafeEngine extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [bytes, address], multicall)
     }
 
+    /**
+     * Nullify an amount of coins with an equal amount of debt
+     * @param rad Amount of debt & coins to destroy
+     */
+
     settleDebt(rad: BigNumberish): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -403,6 +475,14 @@ export class SafeEngine extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [bytes, address], multicall)
     }
 
+    /**
+     * Transfer collateral between accounts
+     * @param collateralType Collateral type transferred
+     * @param dst Collateral destination
+     * @param src Collateral source
+     * @param wad Amount of collateral transferred
+     */
+
     transferCollateral(
         collateralType: BytesLike,
         src: string,
@@ -416,6 +496,13 @@ export class SafeEngine extends BaseContractAPI {
         return this.getTransactionRequest(abi, [collateralType, src, dst, wad])
     }
 
+    /**
+     * Transfer internal coins (does not affect external balances from Coin.sol)
+     * @param dst Coins destination
+     * @param rad Amount of coins transferred
+     * @param src Coins source
+     */
+
     transferInternalCoins(
         src: string,
         dst: string,
@@ -427,6 +514,15 @@ export class SafeEngine extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [src, dst, rad])
     }
+
+    /**
+     * Transfer collateral and/or debt between SAFEs
+     * @param collateralType Collateral type transferred between SAFEs
+     * @param deltaCollateral Amount of collateral to take/add into src and give/take from dst (wad)
+     * @param deltaDebt Amount of debt to take/add into src and give/take from dst (wad)
+     * @param dst Destination SAFE
+     * @param src Source SAFE
+     */
 
     transferSAFECollateralAndDebt(
         collateralType: BytesLike,
@@ -447,6 +543,13 @@ export class SafeEngine extends BaseContractAPI {
             deltaDebt,
         ])
     }
+
+    /**
+     * Usually called by TaxCollector in order to accrue interest on a specific collateral type
+     * @param collateralType Collateral type we accrue interest for
+     * @param rateMultiplier Multiplier applied to the debtAmount in order to calculate the surplus [ray]
+     * @param surplusDst Destination for amount of surplus created by applying the interest rate to debt created by SAFEs with 'collateralType'
+     */
 
     updateAccumulatedRate(
         collateralType: BytesLike,

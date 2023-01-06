@@ -8,6 +8,11 @@ import { BigNumberish } from '@ethersproject/bignumber'
 import { BigNumber } from '@ethersproject/bignumber'
 
 export class BasicCollateralJoin extends BaseContractAPI {
+    /**
+     * Add auth to an account
+     * @param account Account to add auth to
+     */
+
     addAuthorization(account: string): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -78,6 +83,10 @@ export class BasicCollateralJoin extends BaseContractAPI {
         return this.ethCallOrMulticall(abi, [], multicall)
     }
 
+    /**
+     * Disable this contract
+     */
+
     disableContract(): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -85,6 +94,13 @@ export class BasicCollateralJoin extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [])
     }
+
+    /**
+     * This function destroys the collateral representation from inside the system     and exits the collateral from this adapte. The adapter assumes that the collateral     has 18 decimals
+     * Exit collateral from the system
+     * @param account Account to which we transfer the collateral
+     * @param wad Amount of collateral to transfer to 'account' (represented as a number with 18 decimals)*
+     */
 
     exit(account: string, wad: BigNumberish): TransactionRequest {
         // prettier-ignore
@@ -94,6 +110,13 @@ export class BasicCollateralJoin extends BaseContractAPI {
         return this.getTransactionRequest(abi, [account, wad])
     }
 
+    /**
+     * This function locks collateral in the adapter and creates a 'representation' of     the locked collateral inside the system. This adapter assumes that the collateral     has 18 decimals
+     * Join collateral in the system
+     * @param account Account from which we transferFrom collateral and add it in the system
+     * @param wad Amount of collateral to transfer in the system (represented as a number with 18 decimals)*
+     */
+
     join(account: string, wad: BigNumberish): TransactionRequest {
         // prettier-ignore
         // @ts-ignore
@@ -101,6 +124,11 @@ export class BasicCollateralJoin extends BaseContractAPI {
 
         return this.getTransactionRequest(abi, [account, wad])
     }
+
+    /**
+     * Remove auth from an account
+     * @param account Account to remove auth from
+     */
 
     removeAuthorization(account: string): TransactionRequest {
         // prettier-ignore

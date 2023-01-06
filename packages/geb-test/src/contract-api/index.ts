@@ -1,17 +1,17 @@
-import { GebEthersProvider } from '@money-god/geb-ethers-provider'
-import { ethers } from 'ethers'
-import { MAKER_KOVAN_NODE, MAKER_MAINNET_NODE } from './../const'
-import { testsWithGenericGebProvider } from './generic-provider-test'
+//import { GebEthersProvider } from '@money-god/geb-ethers-provider'
+//import { ethers } from 'ethers'
+//import { INFURA_GOERLI } from './../const'
+//import { testsWithGenericGebProvider } from './generic-provider-test'
 //import { testsMcWithGenericGebProvider } from './generic-provider-test'
-import { testsWithEthersProvider } from './ehters-provider-tests'
+//import { testsWithEthersProvider } from './ehters-provider-tests'
 import { testsMcWithEthersProvider } from './ehters-provider-tests'
-import { testContractPresence } from './contracts'
-//import { testMcContractPresence } from './contracts'
+//import { testContractPresence } from './contracts'
+import { testMcContractPresence } from './contracts'
 import {
     MC_LOCAL_ADDRESSES,
-    KOVAN_ADDRESSES,
-    MAINNET_ADDRESSES,
+    //MC_GOERLI_ADDRESSES,
 } from 'mcgeb.js'
+/*
 describe('Test contract API', async () => {
     // Kovan
     const providerKovan = new ethers.providers.StaticJsonRpcProvider(
@@ -37,6 +37,35 @@ describe('Test contract API', async () => {
     testsWithEthersProvider(MAINNET_ADDRESSES, MAKER_MAINNET_NODE, 'mainnet')
     testContractPresence('mainnet', MAKER_MAINNET_NODE)
 })
+*/
+
+/*
+describe('Test contract API', async () => {
+    // Goerli
+    const provider = new ethers.providers.StaticJsonRpcProvider(
+        INFURA_GOERLI
+    )
+    const gebProvider = new GebEthersProvider(provider)
+
+    testsMcWithGenericGebProvider(gebProvider, MC_GOERLI_ADDRESSES, 'goerli')
+    testsMcWithEthersProvider(MC_GOERLI_ADDRESSES, INFURA_GOERLI, 'goerli')
+    testMcContractPresence('goerli', INFURA_GOERLI)
+
+    // Mainnet
+    const providerMainnet = new ethers.providers.StaticJsonRpcProvider(
+        MAKER_MAINNET_NODE
+    )
+    const gebProviderMainnet = new GebEthersProvider(providerMainnet)
+
+    testsWithGenericGebProvider(
+        gebProviderMainnet,
+        MAINNET_ADDRESSES,
+        'mainnet'
+    )
+    testsWithEthersProvider(MAINNET_ADDRESSES, MAKER_MAINNET_NODE, 'mainnet')
+    testContractPresence('mainnet', MAKER_MAINNET_NODE)
+})
+*/
 
 describe('Test mc contract API', async () => {
     // Local
@@ -48,7 +77,7 @@ describe('Test mc contract API', async () => {
         'http://127.0.0.1:8545',
         'local'
     )
-    //testMcContractPresence('local', 'http://127.0.0.1:8545')
+    testMcContractPresence('local', 'http://127.0.0.1:8545')
 
     /*
     // Kovan

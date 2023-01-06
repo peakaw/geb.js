@@ -1,6 +1,6 @@
 {
     "name": "@money-god/geb-ethers-provider",
-    "version": "1.0.10",
+    "version": "1.0.13",
     "description": "",
     "main": "./lib/index.js",
     "scripts": {
@@ -9,7 +9,7 @@
     "author": "<peakaw@protonmail.com>",
     "license": "MIT",
     "dependencies": {
-        "@money-god/geb-contract-base": "^1.0.9"
+        "@money-god/geb-contract-base": "^1.0.12"
     },
     "devDependencies": {
         "ethers": "^5.0.9"
@@ -20,5 +20,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "gitHead": "e0627bb7c504fc78cc65315ac4b98da65eeaea1b"
+    "gitHead": "1a5e4fd8ffa47280eaed945d831c21922439c4a5"
 }
