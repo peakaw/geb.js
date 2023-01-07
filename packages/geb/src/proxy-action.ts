@@ -74,7 +74,7 @@ export class GebProxyActions {
     public proxyActionSaviourAddress: string
 
     private addressList: MultiCollateralContractList
-    private collateralToJoin: Record<string, string>
+    public  collateralToJoin: Record<string, string>
     private proxyActionCore: GebProxyActionsCore
     private proxyActionGlobalSettlement: GebProxyActionsGlobalSettlement
     private proxyActionIncentive: GebProxyIncentivesActions
@@ -236,16 +236,16 @@ export class GebProxyActions {
     }
 
     exitTokenCollateral(
-        collateralJoin: string,
         safe: BigNumberish,
-        amt: BigNumberish
+        collateralType: string,
+        wad: BigNumberish
     ): TransactionRequest {
         return this.getProxiedTransactionRequest(
             this.proxyActionCore.exitTokenCollateral(
                 this.addressList.SAFE_MANAGER,
-                collateralJoin,
+                this.collateralToJoin[collateralType],
                 safe,
-                amt
+                wad
             )
         )
     }
@@ -266,16 +266,16 @@ export class GebProxyActions {
     }
 
     freeTokenCollateral(
-        collateralJoin: string,
         safe: BigNumberish,
-        amt: BigNumberish
+        collateralType: string,
+        wad: BigNumberish
     ): TransactionRequest {
         return this.getProxiedTransactionRequest(
             this.proxyActionCore.freeTokenCollateral(
                 this.addressList.SAFE_MANAGER,
-                collateralJoin,
+                this.collateralToJoin[collateralType],
                 safe,
-                amt
+                wad
             )
         )
     }
@@ -349,26 +349,28 @@ export class GebProxyActions {
     }
 
     lockTokenCollateral(
-        collateralJoin: string,
+        collateralValue: BigNumberish,
+        collateralType: BytesLike,
         safe: BigNumberish,
-        amt: BigNumberish,
         transferFrom: boolean
     ): TransactionRequest {
         return this.getProxiedTransactionRequest(
             this.proxyActionCore.lockTokenCollateral(
                 this.addressList.SAFE_MANAGER,
-                collateralJoin,
+                this.collateralToJoin[
+                    ethers.utils.parseBytes32String(collateralType)
+                ],
                 safe,
-                amt,
+                collateralValue,
                 transferFrom
             )
         )
     }
 
     lockTokenCollateralAndGenerateDebt(
-        collateralJoin: string,
+        collateralValue: BigNumberish,
+        collateralType: BytesLike,
         safe: BigNumberish,
-        collateralAmount: BigNumberish,
         deltaWad: BigNumberish,
         transferFrom: boolean
     ): TransactionRequest {
@@ -376,10 +378,12 @@ export class GebProxyActions {
             this.proxyActionCore.lockTokenCollateralAndGenerateDebt(
                 this.addressList.SAFE_MANAGER,
                 this.addressList.GEB_TAX_COLLECTOR,
-                collateralJoin,
+                this.collateralToJoin[
+                    ethers.utils.parseBytes32String(collateralType)
+                ],
                 this.addressList.GEB_COIN_JOIN,
                 safe,
-                collateralAmount,
+                collateralValue,
                 deltaWad,
                 transferFrom
             )
@@ -387,9 +391,9 @@ export class GebProxyActions {
     }
 
     lockTokenCollateralGenerateDebtAndProtectSAFE(
-        collateralJoin: string,
+        collateralValue: BigNumberish,
+        collateralType: BytesLike,
         safe: BigNumberish,
-        collateralAmount: BigNumberish,
         deltaWad: BigNumberish,
         transferFrom: boolean,
         saviour: string
@@ -398,10 +402,12 @@ export class GebProxyActions {
             this.proxyActionCore.lockTokenCollateralGenerateDebtAndProtectSAFE(
                 this.addressList.SAFE_MANAGER,
                 this.addressList.GEB_TAX_COLLECTOR,
-                collateralJoin,
+                this.collateralToJoin[
+                    ethers.utils.parseBytes32String(collateralType)
+                ],
                 this.addressList.GEB_COIN_JOIN,
                 safe,
-                collateralAmount,
+                collateralValue,
                 deltaWad,
                 transferFrom,
                 this.addressList.GEB_LIQUIDATION_ENGINE,
@@ -526,7 +532,6 @@ export class GebProxyActions {
     }
 
     openLockTokenCollateralAndGenerateDebt(
-        collateralJoin: string,
         collateralType: BytesLike,
         collateralAmount: BigNumberish,
         deltaWad: BigNumberish,
@@ -536,7 +541,9 @@ export class GebProxyActions {
             this.proxyActionCore.openLockTokenCollateralAndGenerateDebt(
                 this.addressList.SAFE_MANAGER,
                 this.addressList.GEB_TAX_COLLECTOR,
-                collateralJoin,
+                this.collateralToJoin[
+                    ethers.utils.parseBytes32String(collateralType)
+                ],
                 this.addressList.GEB_COIN_JOIN,
                 collateralType,
                 collateralAmount,
@@ -547,7 +554,6 @@ export class GebProxyActions {
     }
 
     openLockTokenCollateralGenerateDebtAndProtectSAFE(
-        collateralJoin: string,
         collateralType: BytesLike,
         collateralAmount: BigNumberish,
         deltaWad: BigNumberish,
@@ -558,7 +564,9 @@ export class GebProxyActions {
             this.proxyActionCore.openLockTokenCollateralGenerateDebtAndProtectSAFE(
                 this.addressList.SAFE_MANAGER,
                 this.addressList.GEB_TAX_COLLECTOR,
-                collateralJoin,
+                this.collateralToJoin[
+                    ethers.utils.parseBytes32String(collateralType)
+                ],
                 this.addressList.GEB_COIN_JOIN,
                 collateralType,
                 collateralAmount,
@@ -617,17 +625,17 @@ export class GebProxyActions {
     }
 
     repayAllDebtAndFreeTokenCollateral(
-        collateralJoin: string,
+        collateralType: string,
         safe: BigNumberish,
-        collateralAmount: BigNumberish
+        collateralWad: BigNumberish
     ): TransactionRequest {
         return this.getProxiedTransactionRequest(
             this.proxyActionCore.repayAllDebtAndFreeTokenCollateral(
                 this.addressList.SAFE_MANAGER,
-                collateralJoin,
+                this.collateralToJoin[collateralType],
                 this.addressList.GEB_COIN_JOIN,
                 safe,
-                collateralAmount
+                collateralWad
             )
         )
     }
@@ -662,7 +670,7 @@ export class GebProxyActions {
     }
 
     repayDebtAndFreeTokenCollateral(
-        collateralJoin: string,
+        collateralType: string,
         safe: BigNumberish,
         collateralAmount: BigNumberish,
         deltaWad: BigNumberish
@@ -670,7 +678,7 @@ export class GebProxyActions {
         return this.getProxiedTransactionRequest(
             this.proxyActionCore.repayDebtAndFreeTokenCollateral(
                 this.addressList.SAFE_MANAGER,
-                collateralJoin,
+                this.collateralToJoin[collateralType],
                 this.addressList.GEB_COIN_JOIN,
                 safe,
                 collateralAmount,
@@ -697,7 +705,7 @@ export class GebProxyActions {
     }
 
     safeLockTokenCollateral(
-        collateralJoin: string,
+        collateralType: string,
         safe: BigNumberish,
         amt: BigNumberish,
         transferFrom: boolean,
@@ -706,7 +714,7 @@ export class GebProxyActions {
         return this.getProxiedTransactionRequest(
             this.proxyActionCore.safeLockTokenCollateral(
                 this.addressList.SAFE_MANAGER,
-                collateralJoin,
+                this.collateralToJoin[collateralType],
                 safe,
                 amt,
                 transferFrom,
@@ -866,13 +874,14 @@ export class GebProxyActions {
     }
 
     redeemTokenCollateralGlobalSettlement(
-        collateralJoin: string,
         collateralType: BytesLike,
         wad: BigNumberish
     ): TransactionRequest {
         return this.getProxiedTransactionRequest(
             this.proxyActionGlobalSettlement.redeemTokenCollateral(
-                collateralJoin,
+                this.collateralToJoin[
+                    ethers.utils.parseBytes32String(collateralType)
+                ],
                 this.addressList.GEB_GLOBAL_SETTLEMENT,
                 collateralType,
                 wad
