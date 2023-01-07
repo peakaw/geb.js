@@ -1,6 +1,6 @@
 {
     "name": "@money-god/geb-console",
-    "version": "1.0.13",
+    "version": "1.0.14",
     "description": "",
     "main": "./lib/index.js",
     "bin": {
@@ -9,7 +9,7 @@
     "author": "<peakaw@protonmail.com>",
     "license": "MIT",
     "dependencies": {
-        "@money-god/geb-admin": "^1.0.13",
+        "@money-god/geb-admin": "^1.0.14",
         "@nomiclabs/hardhat-ethers": "^2.0.2",
         "ethers": "^5.0.32",
         "hardhat": "^2.1.2",
