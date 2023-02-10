@@ -5,6 +5,7 @@ import {
     OracleRelayer,
     GlobalSettlement,
     DebtAuctionHouse,
+    DebtRewards,
     Coin,
     GebSafeManager,
     GetSafes,
@@ -144,6 +145,7 @@ export class MultiCollateralContractApis {
     public oracleRelayer: OracleRelayer
     public globalSettlement: GlobalSettlement
     public debtAuctionHouse: DebtAuctionHouse
+    public debtRewards: DebtRewards
     public surplusAuctionHouse: BurningSurplusAuctionHouse
     public stabilityFeeTreasury: StabilityFeeTreasury
     public safeManager: GebSafeManager
@@ -187,6 +189,7 @@ export class MultiCollateralContractApis {
         this.oracleRelayer = new OracleRelayer(addressList.GEB_ORACLE_RELAYER, this.chainProvider)
         this.globalSettlement = new GlobalSettlement(addressList.GEB_GLOBAL_SETTLEMENT, this.chainProvider)
         this.debtAuctionHouse = new DebtAuctionHouse(addressList.GEB_DEBT_AUCTION_HOUSE, this.chainProvider)
+        this.debtRewards = new DebtRewards(addressList.GEB_DEBT_REWARDS, this.chainProvider)
         this.surplusAuctionHouse = new BurningSurplusAuctionHouse(addressList.GEB_SURPLUS_AUCTION_HOUSE, this.chainProvider)
         this.stabilityFeeTreasury = new StabilityFeeTreasury(addressList.GEB_STABILITY_FEE_TREASURY, this.chainProvider)
         this.safeManager = new GebSafeManager(addressList.SAFE_MANAGER, this.chainProvider)

@@ -3,6 +3,7 @@ import { BasicCollateralJoin } from './generated/BasicCollateralJoin'
 import { CoinJoin } from './generated/CoinJoin'
 import { Coin } from './generated/Coin'
 import { DebtAuctionHouse } from './generated/DebtAuctionHouse'
+import { DebtRewards } from './generated/DebtRewards'
 import { DsProxy } from './generated/DSProxy'
 import { IncreasingDiscountCollateralAuctionHouse } from './generated/IncreasingDiscountCollateralAuctionHouse'
 import { GebProxyRegistry } from './generated/GebProxyRegistry'
@@ -62,6 +63,7 @@ export {
     CoinJoin,
     Coin,
     DebtAuctionHouse,
+    DebtRewards,
     DsProxy,
     IncreasingDiscountCollateralAuctionHouse,
     GebProxyRegistry,
