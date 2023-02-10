@@ -1,0 +1,260 @@
+{
+  "abi": [{
+      "inputs": [{
+          "internalType": "address",
+          "name": "rewardDripper_",
+          "type": "address"
+      }],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+  }, {
+      "anonymous": false,
+      "inputs": [{
+          "indexed": false,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+      }],
+      "name": "AddAuthorization",
+      "type": "event"
+  }, {
+      "anonymous": false,
+      "inputs": [{
+          "indexed": true,
+          "internalType": "address",
+          "name": "safe",
+          "type": "address"
+      }, {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+      }],
+      "name": "DebtSet",
+      "type": "event"
+  }, {
+      "anonymous": false,
+      "inputs": [{
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "accTokensPerShare",
+          "type": "uint256"
+      }, {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "stakedSupply",
+          "type": "uint256"
+      }],
+      "name": "PoolUpdated",
+      "type": "event"
+  }, {
+      "anonymous": false,
+      "inputs": [{
+          "indexed": false,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+      }],
+      "name": "RemoveAuthorization",
+      "type": "event"
+  }, {
+      "anonymous": false,
+      "inputs": [{
+          "indexed": false,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+      }, {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+      }],
+      "name": "RewardsPaid",
+      "type": "event"
+  }, {
+      "inputs": [],
+      "name": "RAY",
+      "outputs": [{
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+      }],
+      "stateMutability": "view",
+      "type": "function"
+  }, {
+      "inputs": [],
+      "name": "WAD",
+      "outputs": [{
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+      }],
+      "stateMutability": "view",
+      "type": "function"
+  }, {
+      "inputs": [],
+      "name": "accTokensPerShare",
+      "outputs": [{
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+      }],
+      "stateMutability": "view",
+      "type": "function"
+  }, {
+      "inputs": [{
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+      }],
+      "name": "addAuthorization",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  }, {
+      "inputs": [{
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+      }],
+      "name": "authorizedAccounts",
+      "outputs": [{
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+      }],
+      "stateMutability": "view",
+      "type": "function"
+  }, {
+      "inputs": [{
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+      }],
+      "name": "debtBalanceOf",
+      "outputs": [{
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+      }],
+      "stateMutability": "view",
+      "type": "function"
+  }, {
+      "inputs": [],
+      "name": "getRewards",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  }, {
+      "inputs": [],
+      "name": "lastRewardBlock",
+      "outputs": [{
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+      }],
+      "stateMutability": "view",
+      "type": "function"
+  }, {
+      "inputs": [{
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+      }],
+      "name": "pendingRewards",
+      "outputs": [{
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+      }],
+      "stateMutability": "view",
+      "type": "function"
+  }, {
+      "inputs": [],
+      "name": "pullFunds",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  }, {
+      "inputs": [{
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+      }],
+      "name": "removeAuthorization",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  }, {
+      "inputs": [],
+      "name": "rewardDripper",
+      "outputs": [{
+          "internalType": "contract RewardDripperLike",
+          "name": "",
+          "type": "address"
+      }],
+      "stateMutability": "view",
+      "type": "function"
+  }, {
+      "inputs": [],
+      "name": "rewardRate",
+      "outputs": [{
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+      }],
+      "stateMutability": "view",
+      "type": "function"
+  }, {
+      "inputs": [],
+      "name": "rewardToken",
+      "outputs": [{
+          "internalType": "contract TokenLike",
+          "name": "",
+          "type": "address"
+      }],
+      "stateMutability": "view",
+      "type": "function"
+  }, {
+      "inputs": [],
+      "name": "rewardsBalance",
+      "outputs": [{
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+      }],
+      "stateMutability": "view",
+      "type": "function"
+  }, {
+      "inputs": [{
+          "internalType": "address",
+          "name": "who",
+          "type": "address"
+      }, {
+          "internalType": "uint256",
+          "name": "wad",
+          "type": "uint256"
+      }],
+      "name": "setDebt",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  }, {
+      "inputs": [],
+      "name": "totalDebt",
+      "outputs": [{
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+      }],
+      "stateMutability": "view",
+      "type": "function"
+  }, {
+      "inputs": [],
+      "name": "updatePool",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+  }]
+}
